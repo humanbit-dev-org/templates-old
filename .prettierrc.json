@@ -1,19 +1,27 @@
 {
-    "arrowParens": "always",
-    "bracketSameLine": false,
-    "bracketSpacing": true,
-    "endOfLine": "lf",
-    "htmlWhitespaceSensitivity": "css",
-    "insertPragma": false,
-    "proseWrap": "preserve",
-    "quoteProps": "as-needed",
-    "semi": true,
-    "singleQuote": false,
-    "singleAttributePerLine": false,
-    "printWidth": 80,
-    "useTabs": false,
-    "vueIndentScriptAndStyle": false,
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "plugins": ["@prettier/plugin-php"]
-  }
+  "arrowParens": "always",
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "htmlWhitespaceSensitivity": "css",
+  "insertPragma": false,
+  "proseWrap": "preserve",
+  "quoteProps": "as-needed",
+  "semi": true,
+  "singleQuote": false,
+  "singleAttributePerLine": false,
+  "printWidth": 80,
+  "useTabs": false,
+  "vueIndentScriptAndStyle": false,
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "plugins": ["@prettier/plugin-php"],
+  "overrides": [
+    {
+      "files": "*.php",
+      "options": {
+        "parser": "php"
+      }
+    }
+  ]
+}
