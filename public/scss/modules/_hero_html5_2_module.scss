@@ -1,0 +1,375 @@
+  //
+ // Hero module with HTML5 video (2)
+//
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for mixins and variables
+// <<<<< Controllers — END
+
+
+// Copy, paste and uncomment the following code into the intended SCSS page to style this module:
+// @extend %hero_html5_2_module;
+
+%hero_html5_2_module {
+
+	.hero_html5_2_module {
+		h1,
+		h2,
+		h3 {
+			color: white !important;
+		}
+
+		.h1_container {
+			border-bottom: 1px solid;
+			position: relative;
+		}
+
+		.hero_rmg {
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		.hero_rmg_div {
+			height: 100vh;
+			overflow: hidden;
+			position: relative;
+			z-index: 0;
+			right: 0;
+			top: 0;
+			left: 0;
+		}
+
+		video {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			overflow: hidden;
+			z-index: -998;
+			width: auto !important;
+			height: 150% !important;
+		}
+
+		.box_testo_hero {
+			height: 100%;
+
+			i {
+				color: white;
+			}
+		}
+
+		.text_container {
+			height: fit-content;
+		}
+
+		#video_session_home {
+
+			.gotofarm_button{
+				width: fit-content;
+
+				&:hover {
+					background-color: $color_first;
+
+					a {
+						color: $color_fourth;
+						opacity: 1;
+					}
+				}
+			}
+
+		}
+
+		.subscribe_home {
+			// width: 200px;
+			width: 225px;
+			z-index: 12;
+
+			&:hover {
+				opacity: 0;
+				transition: all 0.5s ease-in-out;
+				-webkit-transition: all 0.5s ease-in-out;
+				-moz-transition: all 0.5s ease-in-out;
+				-o-transition: all 0.5s ease-in-out;
+
+				background-color: $color_second;
+				cursor: pointer;
+				color: $color_white;
+
+				.never_text {
+					opacity: 0;
+					transition: all 0.5s ease-in-out;
+					-webkit-transition: all 0.5s ease-in-out;
+					-moz-transition: all 0.5s ease-in-out;
+					-o-transition: all 0.5s ease-in-out;
+				}
+			}
+		}
+
+		.subscribe_home:hover + .subscribe_text {
+			opacity: 1 !important;
+			transition: all 0.5s ease-in-out;
+			-webkit-transition: all 0.5s ease-in-out;
+			-moz-transition: all 0.5s ease-in-out;
+			-o-transition: all 0.5s ease-in-out;
+		}
+
+		.subscription_circle {
+			opacity: 0 !important;
+			position: absolute;
+			right: 100px;
+			bottom: 1rem;
+			z-index: 10;
+			background-color: #FA7705;
+			color: white;
+			border-radius: 50%;
+			width: 130px;
+			height: 130px;
+
+			&:hover {
+				opacity: 1;
+			}
+
+			i {
+				font-size: 2rem;
+			}
+		}
+
+		.container_text_hero {
+			height: fit-content;
+		}
+
+		.hero_rmg {
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		.box_testo_hero {
+			background: linear-gradient(0deg, #00000080, transparent 80%, transparent);
+		}
+
+		.hero_rmg_div {
+			height: 100vh;
+			overflow: hidden;
+			position: relative;
+			z-index: 0;
+			right: 0;
+			top: 0;
+			left: 0;
+		}
+
+		.fa-arrow-right-long::before {
+			color: $color_first;
+			vertical-align: sub;
+		}
+
+		.fa-arrow-right-long {
+			float: right;
+		}
+	}
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////////
+////////////////
+			  ////////////////////////
+			 /* @media (max-width) */
+			////////////////////////
+
+			@media (max-width: 1399.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 1199.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 991.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 767.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 575.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+				// -------------- //
+
+			  ////////////////////
+			 /* @media between */
+			////////////////////
+
+			@media (min-width: 576px) and (max-width: 767.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 576px) and (max-width: 991.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) and (max-width: 991.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 992px) and (max-width: 1199.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+				// ------------------ //
+
+			  ////////////////////////
+			 /* @media (min-width) */
+			////////////////////////
+
+			@media (min-width: 576px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 992px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1400px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+				// ---------------- //
+
+			  //////////////////////
+			 /* mobile landscape */
+			//////////////////////
+
+			@media (max-height: 400px) and (orientation: landscape) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+
+				// ----------------- //
+
+			  ///////////////////////
+			 /* iPad Pro portrait */
+			///////////////////////
+
+			@media (width: 1024px) and (height: 1366px) {
+
+				.hero_html5_module {
+
+
+
+				}
+
+			}
+  //  }
+
+}

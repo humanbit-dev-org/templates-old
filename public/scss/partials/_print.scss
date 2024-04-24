@@ -1,0 +1,236 @@
+  // `@media print` stylesheet
+ //
+// See: https://stackoverflow.com/questions/8549529/what-is-the-difference-between-screen-and-only-screen-in-media-queries/14168210#14168210
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for mixins and variables
+@use "../controllers/extends" as *; // controller for modules
+// <<<<< Controllers — END
+
+
+@media print {
+
+	.print_partial {
+		// @extend %example_module;
+		// @extend %example_module;
+		// @extend %example_module;
+		// @extend %example_module;
+		// @extend %example_module;
+
+		.row {
+			color: blue;
+
+			.test {
+				background-color: red;
+			}
+		}
+
+	}
+
+}
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////
+////////////
+		  ////////////////////////
+		 /* @media (max-width) */
+		////////////////////////
+
+		@media print and (max-width: 1399.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (max-width: 1199.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (max-width: 991.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (max-width: 767.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (max-width: 575.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+			// -------------- //
+
+		  ////////////////////
+		 /* @media between */
+		////////////////////
+
+		@media print and (min-width: 576px) and (max-width: 767.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (min-width: 576px) and (max-width: 991.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (min-width: 768px) and (max-width: 991.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (min-width: 992px) and (max-width: 1199.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (min-width: 1200px) and (max-width: 1399.98px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+			// ------------------ //
+
+		  ////////////////////////
+		 /* @media (min-width) */
+		////////////////////////
+
+		@media print and (min-width: 576px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (min-width: 768px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (min-width: 992px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (min-width: 1200px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+		@media print and (min-width: 1400px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+			// ---------------- //
+
+		  //////////////////////
+		 /* mobile landscape */
+		//////////////////////
+
+		@media print and (max-height: 400px) and (orientation: landscape) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+
+			// ----------------- //
+
+		  ///////////////////////
+		 /* iPad Pro portrait */
+		///////////////////////
+
+		@media print and (width: 1024px) and (height: 1366px) {
+
+			.print_partial {
+
+
+
+			}
+
+		}
+ // }

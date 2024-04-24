@@ -1,0 +1,225 @@
+  //
+ // Starting module template (change file title, extend/wrapper names and description)
+//
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for mixins and variables
+// <<<<< Controllers — END
+
+
+// Copy, paste and uncomment the following code into the intended SCSS page to style this module:
+// @extend %template_module;
+
+%template_module {
+
+	.template_module {
+
+	}
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////////
+////////////////
+			  ////////////////////////
+			 /* @media (max-width) */
+			////////////////////////
+
+			@media (max-width: 1399.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 1199.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 991.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 767.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 575.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+				// -------------- //
+
+			  ////////////////////
+			 /* @media between */
+			////////////////////
+
+			@media (min-width: 576px) and (max-width: 767.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 576px) and (max-width: 991.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) and (max-width: 991.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 992px) and (max-width: 1199.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+				// ------------------ //
+
+			  ////////////////////////
+			 /* @media (min-width) */
+			////////////////////////
+
+			@media (min-width: 576px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 992px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1400px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+				// ---------------- //
+
+			  //////////////////////
+			 /* mobile landscape */
+			//////////////////////
+
+			@media (max-height: 400px) and (orientation: landscape) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+
+				// ----------------- //
+
+			  ///////////////////////
+			 /* iPad Pro portrait */
+			///////////////////////
+
+			@media (width: 1024px) and (height: 1366px) {
+
+				.template_module {
+
+
+
+				}
+
+			}
+  //  }
+
+}

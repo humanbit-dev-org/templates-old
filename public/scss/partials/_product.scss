@@ -1,0 +1,225 @@
+  //
+ // Product page
+//
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for mixins and variables
+@use "../controllers/extends" as *; // controller for modules
+// <<<<< Controllers — END
+
+
+.product_partial {
+	// @extend %example_module;
+	// @extend %example_module;
+	// @extend %example_module;
+	// @extend %example_module;
+	// @extend %example_module;
+
+
+}
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////
+////////////
+		  ////////////////////////
+		 /* @media (max-width) */
+		////////////////////////
+
+		@media (max-width: 1399.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 1199.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 991.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 767.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 575.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+			// -------------- //
+
+		  ////////////////////
+		 /* @media between */
+		////////////////////
+
+		@media (min-width: 576px) and (max-width: 767.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 576px) and (max-width: 991.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 768px) and (max-width: 991.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 992px) and (max-width: 1199.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+			// ------------------ //
+
+		  ////////////////////////
+		 /* @media (min-width) */
+		////////////////////////
+
+		@media (min-width: 576px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 768px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 992px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1200px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1400px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+			// ---------------- //
+
+		  //////////////////////
+		 /* mobile landscape */
+		//////////////////////
+
+		@media (max-height: 400px) and (orientation: landscape) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+
+			// ----------------- //
+
+		  ///////////////////////
+		 /* iPad Pro portrait */
+		///////////////////////
+
+		@media (width: 1024px) and (height: 1366px) {
+
+			.product_partial {
+
+
+
+			}
+
+		}
+ // }

@@ -1,0 +1,76 @@
+  // Scroll offset mixin (declared globally)
+ //
+// Compensate for `fixed` navbar `margin`.
+// @include scroll_offset($height_scroll, $height_md, $max_height_extra, $max_height_md, $max_height_xs_landscape);
+//
+// WARNING: does NOT work if the TARGET has `display: flex` or `padding` set.
+// In that case, make a direct child wrapper.
+
+// >>> Controllers — START
+@use "../controllers/functions" as *; // Controller for functions
+// <<<<< Controllers — END
+
+
+@mixin scroll_offset($height-scroll, $height-md, $max-height-extra, $max-height-md, $max-height-xs-landscape) {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	.container_humanbit_structure {
+		&.nav_small {
+			:target::before {
+				content: "";
+				display: block;
+				height: $height-scroll; // Fixed header height
+				margin: -$height-scroll 0 0; // Negative fixed header height
+			}
+		}
+
+		:target::before {
+			content: "";
+			position: relative;
+			display: block;
+			height: $height-md; // Fixed header height
+			margin: -$height-md 0 0; // Negative fixed header height
+			// Fallback properties
+			// background-color: transparent; // Redundant
+			visibility: hidden;
+			z-index: -1;
+		}
+	}
+
+	@media (max-width: 991.98px) {
+		.container_humanbit_structure {
+			&.nav_extra {
+				:target::before {
+					content: "";
+					display: block;
+					height: $max-height-extra; // Fixed header height
+					margin: -$max-height-extra 0 0; // Negative fixed header height
+				}
+			}
+		}
+	}
+
+	@media (max-width: 767.98px) {
+		.container_humanbit_structure {
+			:target::before {
+				content: "";
+				display: block;
+				height: $max-height-md; // Fixed header height
+				margin: -$max-height-md 0 0; // Negative fixed header height
+			}
+		}
+	}
+
+	@media (max-height: 400px) and (orientation: landscape) {
+		.container_humanbit_structure {
+			:target::before {
+				content: "";
+				display: block;
+				height: $max-height-xs-landscape; // Fixed header height
+				margin: -$max-height-xs-landscape 0 0; // Negative fixed header height
+			}
+		}
+	}
+}

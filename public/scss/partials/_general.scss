@@ -1,0 +1,1429 @@
+  //
+ // Global styles
+//
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for variables and mixins
+@use "../controllers/extends" as *; // controller for modules
+// <<<<< Controllers — END
+
+
+// Selection. <<IN>>
+::-moz-selection { // Firefox.
+	color: $color_white;
+	background-color: $color_first;
+}
+
+::selection {
+	color: $color_white;
+	-webkit-text-fill-color: $color_white;
+	background-color: $color_first;
+}
+// Selection. <<OUT>>
+
+// Scrollbar customization <<IN>>.
+//
+// See https://blog.shahednasser.com/how-to-style-a-scrollbar-with-css
+
+// User Agents must apply any scrollbar-color value set on the root element to the viewport.
+:root {
+	font-size: 16px; // REM base value.
+	// First passed value corresponds to the thumb and the second one to the background.
+	scrollbar-color: $color_second rgba($color_first, .8); // Mozilla Firefox.
+	scrollbar-width: thin; // Mozilla Firefox.
+}
+
+::-webkit-scrollbar { // Background.
+	background-color: $color_first;
+	width: 8px;
+}
+
+::-webkit-scrollbar-button {
+	display: none; // Hides arrows.
+	background-color: $color_second;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border-radius: 50rem;
+
+	&:vertical:start {
+		background-image: url("https://upload.wikimedia.org/wikipedia/commons/6/6b/Font_Awesome_5_solid_chevron-up.svg");
+		background-size: 50%;
+	}
+
+	&:vertical:end {
+		background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/73/Font_Awesome_5_solid_chevron-down.svg");
+		background-size: 50%;
+	}
+
+	&:horizontal:start {
+		background-image: url("https://upload.wikimedia.org/wikipedia/commons/b/b8/Font_Awesome_5_solid_chevron-left.svg");
+		background-size: 35%;
+	}
+
+	&:horizontal:end {
+		background-image: url("https://upload.wikimedia.org/wikipedia/commons/9/9d/Font_Awesome_5_solid_chevron-right.svg");
+		background-size: 35%;
+	}
+}
+
+::-webkit-scrollbar-thumb { // Thumb.
+	background-color: $color_second;
+	border-radius: 50rem;
+}
+
+// Deeper layer than ::-webkit-scrollbar-track-piece.
+// ::-webkit-scrollbar-track { // Background.
+// 	background-color: rgba($color_second, .3);
+// 	border-radius: 50rem;
+// }
+
+// Higher layer than ::-webkit-scrollbar-track.
+::-webkit-scrollbar-track-piece { // Background.
+	background-color: rgba($color_first, .3);
+	border-radius: 50rem;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: $color_first;
+}
+
+::-webkit-resizer {
+	background-color: $color_third;
+}
+// Scrollbar customization. <<OUT>>
+
+body {
+	font-family: "Open Sans", sans-serif;
+	font-size:	1rem;
+	line-height: 1.5;
+	font-weight: 400;
+	color: $color_black;
+	margin: 0;
+	overflow-x: hidden;
+	transition: 0s;
+}
+
+// Add following class for fullscreen modals under navbar
+.modal_full {
+	top: $height_md; // `_variables.scss`
+	height: calc(100vh - $height_md); // `_variables.scss`
+}
+
+
+////
+///---------- Fonts ----------///
+//
+
+// ----------- //
+// font-family //
+// ----------- //
+
+.open_sans {
+	font-family: "Open Sans", sans-serif;
+}
+
+.oswald {
+	font-family: "Oswald", sans-serif;
+}
+
+
+// ------------------------------- //
+// @mixin for responsive font-size //
+// ------------------------------- //
+
+// `font-size` must be set at XX% of Figma's value.
+
+h1,
+.h1 {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 1.73rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 2.5rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	word-break: break-word;
+}
+
+h2,
+.h2 {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 1.54rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 2rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	word-break: break-word;
+}
+
+h3,
+.h3 {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 1.44rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 1.75rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	word-break: break-word;
+}
+
+h4,
+.h4 {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 1.35rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 1.5rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	word-break: break-word;
+}
+
+h5,
+.h5 {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 1.25rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 1.25rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	word-break: break-word;
+}
+
+h6,
+.h6 {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 1rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 1rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	word-break: break-word;
+}
+
+p,
+.p {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 1rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 1rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	word-break: break-word;
+}
+
+.big {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 1.8rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 2.25rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	font-weight: 300;
+}
+
+.medium {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 1.2rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 1.3rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	font-weight: 200;
+}
+
+small,
+.small {
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 0.875rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 0.875rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// line-height: 1.3;
+	word-break: break-word;
+}
+
+select,
+select.form-select,
+input:not([type="checkbox"], [type="radio"]),
+.input,
+label,
+.label,
+.form-check-label {  // 18px/1.13rem - light (300)/regular (400)/medium (500)
+	@include fluid_type( // responsive typography
+		// >>>>> VIEWPORT <<<<<
+		// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+		// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+		// >>>>> MOBILE <<<<<
+		$font-size-min: 0.9rem, // `font-size` on mobile viewport (< 575.98px)
+		$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+		// >>>>> DESKTOP <<<<<
+		$font-size-max: 0.9rem, // `font-size` on desktop viewport (> 576px)
+		$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+		// >>>>> IMPORTANT <<<<<
+		// $important: "!important" // uncomment to add the `!important` flag
+	);
+	// font-weight: 300;
+	// font-weight: 400;
+	// font-weight: 500;
+	// line-height: 18px;
+	// line-height: 1.25;
+}
+
+// input {
+// 	&[type="checkbox"],
+// 	&[type="radio"] {
+// 		font-size: inherit;
+// 		line-height: inherit;
+// 	}
+// }
+
+
+.input_wrapper_spacing { // Set `<form>` elements spacing
+	$input_spacing_y: 0.5rem; // (top/bottom)
+	$input_spacing_x: 0.5rem; // (left/right)
+	padding-top: $input_spacing_y; // (top/bottom)
+	padding-bottom: $input_spacing_y; // (top/bottom)
+	padding-right: $input_spacing_x; // (left/right)
+	padding-left: $input_spacing_x; // (left/right)
+}
+
+// Color values should be input in hexadecimal notation (e.g., #RRGGBB).
+@include form_mixin( // form customization
+	// >>>>> BOX MODEL <<<<<
+	$height-default: 3rem, // bEssEx default: 3.5rem
+	$body-padding-default: 0.7rem 1.25rem 0.45rem, // bEssEx default: 1rem 1.25rem 0.625rem (top left/right bottom) - keep vertical padding proportions upon change
+	$label-padding-transformed: 0.15em 1.75em, // bEssEx default: 0.1rem 1.75rem (top/bottom [max. 0.5rem with 2.5rem height] left/right)
+	$label-font-size-transformed: 0.8rem, // tranformed `<label>` text w/ `.form-floating` (bEssEx default: 0.75rem)
+	// >>>>> DEFAULT COLOR <<<<<
+	$body-color-default: #0e4c95, // placeholder
+	$label-color-default: #edf1f7, // transformed `<label>` text w/ `.form-floating`
+	// >>>>> DEFAULT BACKGROUND <<<<<
+	$body-bg-color-default: #edf1f7, // element `background-color`
+	$label-bg-color-default: #0e4c95, // `<label>` `background-color`
+	// >>>>> TRANSFORMED COLOR <<<<<
+	$body-color-transformed: #edf1f7, // active element body text
+	$label-color-transformed: #0e4c95, // `<label>` text during transformation w/ `.form-floating`
+	// >>>>> TRANSFORMED BACKGROUND <<<<<
+	$body-bg-color-transformed: #6e94bf, // active element `background-color`
+	$label-bg-color-transformed: #edf1f7, // transformed `<label>` `background-color`
+	// >>>>> VISUAL PROPERTIES <<<<<
+	$border: 1px solid #edf1f7, // basic border
+	// $border: 4px solid black, // basic border
+	$border-focus-color: red, // active `border-color`
+	$check-radius-default: 0, // checkbox initial `border-radius`
+	$radius-default: 0, // elements initial `border-radius`
+	$radius-transformed: 20px, // transformed `<label>` `border-radius`
+	// $radius-transformed: 0, // transformed `<label>` `border-radius`
+	$box-shadow-focus: (inset 0 1px 2px rgba(0, 0, 0, 0.08), 5px 5px 0 #0e4c95), // active `box-shadow`
+	// $label-transform: 0px, // uncomment to align transformed `<label>` to the left of the element
+	$transition: all 0.15s ease-in-out // general `<form>` transition
+);
+
+// Used on `registration.xsl`
+.reg_fill {
+	@include filling_effect($color_sixth, $color_sixth, $color_gray_medium, $color_sixth);
+}
+
+// Anchor scroll offset to compensate for navbar height
+@include scroll_offset($height_scroll, $height_md, $max_height_extra, $max_height_md, $max_height_xs_landscape);
+
+
+////
+///---------- Colors ----------///
+//
+
+// ---- //
+// Gray //
+// ---- //
+
+.color_grayer {
+	color: $color_gray_dark;
+}
+
+.bg_color_grayer {
+	background-color: $color_gray_dark;
+}
+
+.border_color_grayer {
+	border-color: $color_gray_dark !important;
+}
+
+// ----- //
+// Black //
+// ----- //
+
+.color_black {
+	color: $color_black;
+}
+
+.bg_color_black {
+	background-color: $color_black;
+}
+
+.border_color_black {
+	border-color: $color_black !important;
+}
+
+// ----- //
+// White //
+// ----- //
+
+.color_white {
+	color: $color_white;
+}
+
+.bg_color_white {
+	background-color: $color_white;
+}
+
+.border_color_white {
+	border-color: $color_white !important;
+}
+
+// ------------ //
+// $color_first //
+// ------------ //
+
+.color_first {
+	color: $color_first;
+}
+
+.bg_color_first {
+	background-color: $color_first;
+}
+
+.border_color_first {
+	border-color: $color_first !important;
+}
+
+// ------------- //
+// $color_second //
+// ------------- //
+
+.color_second{
+	color: $color_second;
+}
+
+.bg_color_second {
+	background-color: $color_second;
+}
+
+.border_color_second {
+	border-color: $color_second !important;
+}
+
+// ------------ //
+// $color_third //
+// ------------ //
+
+.color_third {
+	color: $color_third;
+}
+
+.bg_color_third {
+	background-color: $color_third;
+}
+
+.border_color_third {
+	border-color: $color_third !important;
+}
+
+// ------------- //
+// $color_fourth //
+// ------------- //
+
+.color_fourth {
+	color: $color_fourth;
+}
+
+.bg_color_fourth {
+	background-color: $color_fourth;
+}
+
+.border_color_fourth {
+	border-color: $color_fourth !important;
+}
+
+// ------------ //
+// $color_fifth //
+// ------------ //
+
+.color_fifth {
+	color: $color_fifth;
+}
+
+.bg_color_fifth {
+	background-color: $color_fifth;
+}
+
+.border_color_fifth {
+	border-color: $color_fifth !important;
+}
+
+// ------------ //
+// $color_sixth //
+// ------------ //
+
+.color_sixth {
+	color: $color_sixth;
+}
+
+.bg_color_sixth {
+	background-color: $color_sixth;
+}
+
+.border_color_sixth {
+	border-color: $color_sixth !important;
+}
+
+// -------------- //
+// $color_seventh //
+// -------------- //
+
+.color_seventh {
+	color: $color_seventh;
+}
+
+.bg_color_seventh {
+	background-color: $color_seventh;
+}
+
+.border_color_seventh {
+	border-color: $color_seventh !important;
+}
+
+// ------------- //
+// $color_eighth //
+// ------------- //
+
+.color_eighth {
+	color: $color_eighth;
+}
+
+.bg_color_eighth {
+	background-color: $color_eighth;
+}
+
+.border_color_eighth {
+	border-color: $color_eighth !important;
+}
+
+// ------------ //
+// $color_ninth //
+// ------------ //
+
+.color_ninth {
+	color: $color_ninth;
+}
+
+.bg_color_ninth {
+	background-color: $color_ninth;
+}
+
+.border_color_ninth {
+	border-color: $color_ninth !important;
+}
+
+// ------------ //
+// $color_tenth //
+// ------------ //
+
+.color_tenth {
+	color: $color_tenth;
+}
+
+.bg_color_tenth {
+	background-color: $color_tenth;
+}
+
+.border_color_tenth {
+	border-color: $color_tenth !important;
+}
+
+
+// ------ //
+// Social //
+// ------ //
+
+// Facebook
+.bg_color_facebook {
+	background-color: $color_facebook;
+}
+
+// Twitter
+.bg_color_twitter {
+	background-color: $color_twitter;
+}
+
+// LinkedIn
+.bg_color_linkedin {
+	background-color: $color_linkedin;
+}
+
+// Email
+.bg_color_email {
+	background-color: $color_email;
+}
+
+// WhatsApp
+.bg_color_whatsapp {
+	background-color: $color_whatsapp;
+}
+
+
+////
+///---------- Buttons ----------///
+//
+
+// Style reset so as to make it possible to pass external icons (such as FontAwesome).
+.btn-close {
+	background-image: none;
+}
+
+//
+// All buttons
+//
+
+// General appearance-related classes.
+.btn_reset,
+.btn_reverse,
+.btn_color_white,
+.btn_bg_white,
+.btn_color_black,
+.btn_bg_black,
+// Scheme-related color classes.
+.btn_color_first,
+.btn_bg_first,
+.btn_color_second,
+.btn_bg_second,
+.btn_color_third,
+.btn_bg_third,
+.btn_color_fourth,
+.btn_bg_fourth,
+.btn_color_fifth,
+.btn_bg_fifth,
+.btn_color_sixth,
+.btn_bg_sixth,
+.btn_color_seventh,
+.btn_bg_seventh,
+.btn_color_eighth,
+.btn_bg_eighth,
+.btn_color_ninth,
+.btn_bg_ninth,
+.btn_color_tenth,
+.btn_bg_tenth {
+	// width: fit-content;
+	height: fit-content;
+	// margin: 0;
+	padding: 1rem 1rem;
+	font-family: "IBM Plex Sans", sans-serif;
+	font-size: .88rem;
+	line-height: 1.25;
+	text-transform: uppercase;
+	font-weight: 700;
+	text-align: center;
+	vertical-align: middle;
+	border: 2px solid currentcolor; // General border settings
+	border-radius: 0px;
+	opacity: 1;
+	transition: none;
+
+	// use  this class in addition to differenciate paddings
+	&.btn_big{
+		padding: 0.8rem 4.5rem;
+	}
+
+	// use in addition to differenciate radius
+	&.btn_radius{
+		border-radius: 20px;
+	}
+
+	&:active {
+		opacity: .75;
+	}
+
+	&:hover,
+	&:focus {
+		transition: all .15s ease-in-out !important;
+	}
+
+	// And all their children.
+	> * {
+		transition: none;
+
+		&:hover,
+		&:focus {
+			transition: none;
+		}
+	}
+
+	// All buttons with equal states.
+	&.btn_hover {
+		&:hover,
+		&:active,
+		&:focus-visible {
+			color: $color_white;
+			background-color: $color_black;
+			border-color: $color_black;
+		}
+	}
+
+	// Transparent background.
+	&.btn_reverse {
+		&:hover,
+		&:focus,
+		&:active {
+			color: $color_white;
+			background-color: transparent;
+			border-color: $color_white;
+		}
+	}
+}
+
+// Transparent background.
+.btn_reset {
+	color: $color_white;
+	background-color: transparent;
+	border-color: transparent;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_black;
+		border-color: $color_black;
+	}
+}
+
+.btn_color_black {
+	color: $color_black;
+	background-color: $color_white;
+	border-color: $color_black;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_black;
+		border-color: $color_black;
+	}
+}
+
+.btn_bg_black {
+	color: $color_white;
+	background-color: $color_black;
+	border-color: $color_black;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_black;
+		background-color: $color_white;
+		border-color: $color_black;
+	}
+}
+
+.btn_color_white {
+	color: $color_white;
+	background-color: $color_black;
+	border-color: $color_black;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_black;
+		background-color: $color_white;
+		border-color: $color_black;
+	}
+}
+
+.btn_bg_white {
+	color: $color_black;
+	background-color: $color_white;
+	border-color: $color_black;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_black;
+		border-color: $color_black;
+	}
+}
+
+.btn_color_first {
+	color: $color_first;
+	background-color: $color_white;
+	border-color: $color_first;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_first;
+		border-color: $color_first;
+	}
+}
+
+.btn_bg_first {
+	color: $color_white;
+	background-color: $color_first;
+	border-color: $color_first;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_first;
+		background-color: $color_white;
+		border-color: $color_first;
+	}
+}
+
+.btn_color_second {
+	color: $color_second;
+	background-color: $color_white;
+	border-color: $color_second;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_second;
+		border-color: $color_second;
+	}
+}
+
+.btn_bg_second {
+	color: $color_white;
+	background-color: $color_second;
+	border-color: $color_second;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_second;
+		background-color: $color_white;
+		border-color: $color_second;
+	}
+}
+
+.btn_color_third {
+	color: $color_third;
+	background-color: $color_white;
+	border-color: $color_third;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_third;
+		border-color: $color_third;
+	}
+}
+
+.btn_bg_third {
+	color: $color_white;
+	background-color: $color_third;
+	border-color: $color_third;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_third;
+		background-color: $color_white;
+		border-color: $color_third;
+	}
+}
+
+.btn_color_fourth {
+	color: $color_fourth;
+	background-color: $color_white;
+	border-color: $color_fourth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_fourth;
+		border-color: $color_fourth;
+	}
+}
+
+.btn_bg_fourth {
+	color: $color_white;
+	background-color: $color_fourth;
+	border-color: $color_fourth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_fourth;
+		background-color: $color_white;
+		border-color: $color_fourth;
+	}
+}
+
+.btn_color_fifth {
+	color: $color_fifth;
+	background-color: $color_white;
+	border-color: $color_fifth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_fifth;
+		border-color: $color_fifth;
+	}
+}
+
+.btn_bg_fifth {
+	color: $color_white;
+	background-color: $color_fifth;
+	border-color: $color_fifth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_fifth;
+		background-color: $color_white;
+		border-color: $color_fifth;
+	}
+}
+
+.btn_color_sixth {
+	color: $color_sixth;
+	background-color: $color_white;
+	border-color: $color_sixth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_sixth;
+		border-color: $color_sixth;
+	}
+}
+
+.btn_bg_sixth {
+	color: $color_white;
+	background-color: $color_sixth;
+	border-color: $color_sixth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_sixth;
+		background-color: $color_white;
+		border-color: $color_sixth;
+	}
+}
+
+.btn_color_seventh {
+	color: $color_seventh;
+	background-color: $color_white;
+	border-color: $color_seventh;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_seventh;
+		border-color: $color_seventh;
+	}
+}
+
+.btn_bg_seventh {
+	color: $color_white;
+	background-color: $color_seventh;
+	border-color: $color_seventh;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_seventh;
+		background-color: $color_white;
+		border-color: $color_seventh;
+	}
+}
+
+.btn_color_eighth {
+	color: $color_eighth;
+	background-color: $color_white;
+	border-color: $color_eighth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_eighth;
+		border-color: $color_eighth;
+	}
+}
+
+.btn_bg_eighth {
+	color: $color_white;
+	background-color: $color_eighth;
+	border-color: $color_eighth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_eighth;
+		background-color: $color_white;
+		border-color: $color_eighth;
+	}
+}
+
+.btn_color_ninth {
+	color: $color_ninth;
+	background-color: $color_white;
+	border-color: $color_ninth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_ninth;
+		border-color: $color_ninth;
+	}
+}
+
+.btn_bg_ninth {
+	color: $color_white;
+	background-color: $color_ninth;
+	border-color: $color_ninth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_ninth;
+		background-color: $color_white;
+		border-color: $color_ninth;
+	}
+}
+
+.btn_color_tenth {
+	color: $color_tenth;
+	background-color: $color_white;
+	border-color: $color_tenth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_white;
+		background-color: $color_tenth;
+		border-color: $color_tenth;
+	}
+}
+
+.btn_bg_tenth {
+	color: $color_white;
+	background-color: $color_tenth;
+	border-color: $color_tenth;
+
+	&:hover,
+	&:active,
+	&:focus-visible {
+		color: $color_tenth;
+		background-color: $color_white;
+		border-color: $color_tenth;
+	}
+}
+
+
+////
+///---------- Box ----------///
+//
+
+* {
+	box-sizing: border-box;
+}
+
+*:not(body, button, input, label, select, .fade, .scrollbar_spacing) {
+	&:hover {
+		transition: all 0.3s ease-in-out;
+	}
+}
+
+a:hover {
+	opacity: 0.8;
+}
+
+ul {
+	list-style: none;
+}
+
+
+////
+///---------- Containers ----------///
+//
+
+// container_humanbit_overflow: put here modules that have to funcion along the whole site and not only in specific pages (for ex modal credits)
+.container_humanbit_overflow {
+	// @extend %modal_credits_module;
+	// Necessary to avoid showing internal scrollbar in certain cases.
+	overflow: hidden;
+}
+
+.container_humanbit_structure {
+	min-height: calc(100vh - calc($height_md + $footer_min_height)); // `_variables.scss`
+	margin-top: $height_md; // `_variables.scss`
+}
+
+.full_height {
+	min-height: calc(100vh - $height_md); // `_variables.scss`
+}
+
+.container_humanbit_1 {
+	// padding: 2.5rem 4.5rem;
+	padding-right: 4.5rem;
+	padding-left: 4.5rem;
+}
+
+.container_humanbit_2 {
+	// padding: 5rem 3rem;
+	padding-right: 3rem;
+	padding-left: 3rem;
+}
+
+.container_max_width_1 {
+	margin: 0 auto;
+	// margin-right: auto;
+	// margin-left: auto;
+	max-width: 1500px;
+}
+
+.container_max_width_2 {
+	margin: 0 auto;
+	// margin-right: auto;
+	// margin-left: auto;
+	max-width: 920px;
+}
+
+////
+///---------- move translates in (function in main-humanbit.js ) ----------///
+//
+
+.viewport {
+	transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	transform: matrix(1, 0, 0, 1, 0, 100);
+	opacity: 0;
+}
+
+.viewport.viewport_right {
+	transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	transform: matrix(1, 0, 0, 1, 200, 0);
+	opacity: 0;
+}
+
+.viewport.viewport_left {
+	transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	transform: matrix(1, 0, 0, 1, -200, 0);
+	opacity: 0;
+}
+
+.viewport.viewport_total_left {
+	transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out;
+	transform: matrix(1, 0, 0, 1, -2000, 0);
+	opacity: 0.5;
+}
+
+.viewport.viewport_total_right {
+	transition: all 1.5s ease-in-out;
+	-webkit-transition: all 1.5s ease-in-out;
+	-moz-transition: all 1.5s ease-in-out;
+	transform: matrix(1, 0, 0, 1, 2000, 0);
+	opacity: 0.5;
+}
+
+.viewport.viewport_small_y_rotate {
+	transition: all 2s ease-in-out;
+	-webkit-transition: all 2s ease-in-out;
+	-moz-transition: all 2s ease-in-out;
+	transform: matrix(1, 0, 80, 1, 0, 0);
+	opacity: 0;
+}
+
+.viewport.viewport_big_y {
+	transition: all 2s ease-in-out;
+	-webkit-transition: all 2s ease-in-out;
+	-moz-transition: all 2s ease-in-out;
+	transform: matrix(1, 0, 0, 1, 0, 0);
+	opacity: 0;
+}
+////
+///---------- move translates out ----------///
+//
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////
+////////////
+		  ////////////////////////
+		 /* @media (max-width) */
+		////////////////////////
+
+		@media (max-width: 1399.98px) {
+
+
+
+		}
+
+		@media (max-width: 1199.98px) {
+
+
+
+		}
+
+		@media (max-width: 991.98px) {
+
+			.container_humanbit_structure {
+				&.nav_extra {
+					min-height: calc(100vh - calc($max_height_extra + $footer_min_height)); // `_variables.scss`
+					margin-top: $max_height_extra; // `_variables.scss`
+
+					.full_height {
+						min-height: calc(100vh - $max_height_extra); // `_variables.scss`
+					}
+
+					.modal_full {
+						top: $max_height_extra; // `_variables.scss`
+						height: calc(100vh - $max_height_extra); // `_variables.scss`
+					}
+				}
+			}
+
+		}
+
+		@media (max-width: 767.98px) {
+
+			.container_humanbit_structure {
+				min-height: calc(100vh - calc($max_height_md + $footer_min_height)); // `_variables.scss`
+				margin-top: $max_height_md; // `_variables.scss`
+			}
+
+			.full_height {
+				min-height: calc(100vh - $max_height_md); // `_variables.scss`
+			}
+
+			.modal_full {
+				top: $max_height_md; // `_variables.scss`
+				height: calc(100vh - $max_height_md); // `_variables.scss`
+			}
+
+		}
+
+		@media (max-width: 575.98px) {
+
+			.container_humanbit_1 {
+				padding-right: 1.5rem;
+				padding-left: 1.5rem;
+			}
+
+			.container_humanbit_2 {
+				padding-right: 2rem;
+				padding-left: 2rem;
+			}
+
+		}
+
+			// -------------- //
+
+		  ////////////////////
+		 /* @media between */
+		////////////////////
+
+		@media (min-width: 576px) and (max-width: 767.98px) {
+
+
+
+		}
+
+		@media (min-width: 576px) and (max-width: 991.98px) {
+
+
+
+		}
+
+		@media (min-width: 768px) and (max-width: 991.98px) {
+
+
+
+		}
+
+		@media (min-width: 992px) and (max-width: 1199.98px) {
+
+
+
+		}
+
+		@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+
+
+		}
+
+			// ------------------ //
+
+		  ////////////////////////
+		 /* @media (min-width) */
+		////////////////////////
+
+		@media (min-width: 576px) {
+
+
+
+		}
+
+		@media (min-width: 768px) {
+
+
+
+		}
+
+		@media (min-width: 992px) {
+
+
+
+		}
+
+		@media (min-width: 1200px) {
+
+
+
+		}
+
+		@media (min-width: 1400px) {
+
+
+
+		}
+
+			// ---------------- //
+
+		  //////////////////////
+		 /* mobile landscape */
+		//////////////////////
+
+		@media (max-height: 400px) and (orientation: landscape) {
+
+			.container_humanbit_structure {
+				min-height: calc(100vh - calc($max_height_xs_landscape + $footer_min_height)); // `_variables.scss`
+				margin-top: $max_height_xs_landscape; // `_variables.scss`
+			}
+
+			.full_height {
+				min-height: calc(100vh - $max_height_xs_landscape); // `_variables.scss`
+			}
+
+			.modal_full {
+				top: $max_height_xs_landscape; // `_variables.scss`
+				height: calc(100vh - $max_height_xs_landscape); // `_variables.scss`
+			}
+
+		}
+
+			// ----------------- //
+
+		  ///////////////////////
+		 /* iPad Pro portrait */
+		///////////////////////
+
+		@media (width: 1024px) and (height: 1366px) {
+
+
+
+		}
+ // }

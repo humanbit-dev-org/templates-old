@@ -1,0 +1,301 @@
+  //
+ // Vertical cards module (1)
+//
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for mixins and variables
+// <<<<< Controllers — END
+
+
+// Copy, paste and uncomment the following code into the intended SCSS page to style this module:
+// @extend %card_vert_module;
+
+%card_vert_module {
+
+	.card_vert_module {
+		.card_vert_container {
+			color: white;
+			background-color: $color_first;
+
+			a:hover {
+				box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+				box-shadow: 0 4px 18px 0 rgb(0 0 0 / 9%), 0 6px 40px 0 rgb(0 0 0 / 10%);
+				-webkit-box-shadow: 0 4px 18px 0 rgb(0 0 0 / 9%), 0 6px 40px 0 rgb(0 0 0 / 10%);
+				-moz-box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.09), 0 6px 40px 0 rgba(0, 0, 0, 0.1);
+			}
+		}
+
+		a:hover {
+			opacity: 1;
+		}
+
+		.btn_white_blue:hover {
+			color: white;
+			background-color: $color_second;
+
+			.card_vert_container_shadow_hover {
+				box-shadow: 0 4px 8px 0 rgb(0 0 0 / 32%), 0 6px 20px 0 rgb(0 0 0 / 15%);
+				box-shadow: 0 4px 18px 0 rgb(0 0 0 / 32%), 0 6px 40px 0 rgb(0 0 0 / 15%);
+				-webkit-box-shadow: 0 4px 18px 0 rgb(0 0 0 / 32%), 0 6px 40px 0 rgb(0 0 0 / 15%);
+				-moz-box-shadow: 0 4px 18px 0 rgb(0 0 0 / 32%), 0 6px 40px 0 rgb(0 0 0 / 15%);
+			}
+		}
+
+		.card_header {
+			width: 100%;
+			height: 325px;
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+		}
+
+		.square_data {
+			width: 100px;
+			height: 100px;
+			padding-top: 10px;
+			background-color: #0e4c94;
+
+			time {
+				color: $color_third;
+			}
+		}
+
+		time {
+			color: $color_white;
+		}
+
+		.time_card_vert {
+			font-weight: 200;
+		}
+
+		.date_card_vert {
+			line-height: 1rem;
+		}
+
+		.title_vert_card {
+			font-weight: 500;
+			color: $color_white;
+		}
+
+		.btn_white_blue {
+			color: $color_first;
+			background-color: $color_white;
+		}
+
+		.a_card:hover .btn_white_blue {
+			color: $color_white;
+			background-color: $color_third;
+			-webkit-transition: all 0.3s ease-in-out;
+			-moz-transition: all 0.3s ease-in-out;
+			-o-transition: all 0.3s ease-in-out;
+			transition: all 0.3s ease-in-out;
+		}
+	}
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////////
+////////////////
+			  ////////////////////////
+			 /* @media (max-width) */
+			////////////////////////
+
+			@media (max-width: 1399.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 1199.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 991.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 767.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 575.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+				// -------------- //
+
+			  ////////////////////
+			 /* @media between */
+			////////////////////
+
+			@media (min-width: 576px) and (max-width: 767.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 576px) and (max-width: 991.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) and (max-width: 991.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 992px) and (max-width: 1199.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+				// ------------------ //
+
+			  ////////////////////////
+			 /* @media (min-width) */
+			////////////////////////
+
+			@media (min-width: 576px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 992px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1400px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+				// ---------------- //
+
+			  //////////////////////
+			 /* mobile landscape */
+			//////////////////////
+
+			@media (max-height: 400px) and (orientation: landscape) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+
+				// ----------------- //
+
+			  ///////////////////////
+			 /* iPad Pro portrait */
+			///////////////////////
+
+			@media (width: 1024px) and (height: 1366px) {
+
+				.card_vert_module {
+
+
+
+				}
+
+			}
+  //  }
+
+}

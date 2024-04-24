@@ -1,0 +1,54 @@
+  //
+ // Pages controller
+//
+
+// ------- //
+// Navbars //
+// ------- //
+
+// >>> Collapse on large w/ menu items — START
+// @forward "../partials/navbars/nav_plain";
+// @forward "../partials/navbars/nav_large/nav_lg_1_menu_items_collapse";
+@forward "../partials/navbars/nav_large/nav_lg_burger_slide_right";
+// <<<<< Collapse on large w/ menu items — END
+
+// >>> Growing effect — START
+@forward "../partials/navbars/nav_grow/nav_grow_top";
+@forward "../partials/navbars/nav_grow/nav_grow_right";
+@forward "../partials/navbars/nav_grow/nav_grow_bottom";
+@forward "../partials/navbars/nav_grow/nav_grow_left";
+// <<<<< Growing effect — END
+
+// >>> Sliding effect — START
+@forward "../partials/navbars/nav_slide/nav_slide_top";
+@forward "../partials/navbars/nav_slide/nav_slide_right";
+@forward "../partials/navbars/nav_slide/nav_slide_bottom";
+@forward "../partials/navbars/nav_slide/nav_slide_left";
+// <<<<< Sliding effect — END
+
+
+// ----- //
+// Pages //
+// ----- //
+
+// >>> Global styles — START
+// @forward "../partials/default_template";
+@forward "../partials/general";
+// <<<<< Global styles — END
+
+// >>> Scoped styles — START
+@forward "../partials/article";
+@forward "../partials/articles";
+@forward "../partials/contact";
+@forward "../partials/event";
+@forward "../partials/events";
+@forward "../partials/footer";
+@forward "../partials/home";
+@forward "../partials/humanbit_docs";
+@forward "../partials/map";
+@forward "../partials/modules";
+@forward "../partials/product";
+@forward "../partials/products";
+@forward "../partials/shop";
+@forward "../partials/timeline";
+// <<<<< Scoped styles — END

@@ -1,0 +1,1565 @@
+  // Bootstrap `<form>` mixin
+ //
+// Customize `<form>` based on Bootstrap's classes.
+// See https://github.com/g-silveri/humanbit-templates-symphonycms/wiki/Bootstrap%E2%80%90based-form-mixin
+//
+// The short mixin call (in case the variables are defined externally):
+//
+// @include form_mixin($height-default, $body-padding-default, $label-padding-transformed, $label-font-size-transformed, $body-color-default, $label-color-default, $body-bg-color-default, $label-bg-color-default, $body-color-transformed, $body-bg-color-transformed, $label-color-transformed, $label-bg-color-transformed, $border, $border-focus-color, $check-radius-default, $radius-default, $radius-transformed, $box-shadow-focus, $label-transform, $transition);
+//
+// Variables can also be replaced directly with values.
+//
+// The long mixin call (in case the variables are defined internally):
+//
+// @include form_mixin(
+// 	$height-default: <value>, // bEssEx default: 3.5rem
+// 	$body-padding-default: <value>, // bEssEx default: 1rem 1.25rem 0.625rem (top left/right bottom)
+// 	$label-padding-transformed: <value>, // bEssEx default: 0.1rem 1.75rem (`<label>` transformed)
+// 	$label-font-size-transformed: <value>,
+// 	$body-color-default: <value>,
+// 	$label-color-default: <value>,
+// 	$body-bg-color-default: <value>,
+// 	$label-bg-color-default: <value>,
+// 	$body-color-transformed: <value>,
+// 	$body-bg-color-transformed: <value>,
+// 	$label-color-transformed: <value>,
+// 	$label-bg-color-transformed: <value>,
+// 	$border: <value>, // e.g., 1px solid black
+// 	$border-focus-color: <value>,
+// 	$check-radius-default: <value>, // default: 0
+// 	$radius-default: <value>,
+// 	$radius-transformed: <value>,
+// 	$box-shadow-focus: (inset 0 1px 2px rgba(0, 0, 0, .08), 0 0 .15rem <value>),
+// 	$label-transform: 0, // default: scale(.85) translateY(calc(-50% + ($border-width / 2))) translateX(calc($body-padding-default-x + $border-width))
+// 	$transition: <value> // default: all .15s ease-in-out
+// );
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* `<input>`s must contain a placeholder property set (even if left empty [""]) for the proper animation cycle to happen. */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// >>> Controllers — START
+@use "../controllers/functions" as *; // Controller for functions
+// <<<<< Controllers — END
+
+
+//
+// Utilities
+//
+
+// Webpack to enable division in the recolor mixin
+//
+// For issues with division happening when it shouldn't, see https://github.com/sass/sass/issues/667
+@use "sass:math";
+
+// Recolor mixin
+//
+// Generates filters to automatically convert the `input[type="date"]`'s calendar icon color to the preset value.
+// Pulled from https://stackoverflow.com/questions/61973473/sass-mixin-to-convert-a-hex-to-a-css-filter/66365650#66365650
+@mixin recolor($color: #303030, $opacity: 1) {
+	$r: math.div(red($color), 255); // $r: red($color) / 255;
+	$g: math.div(green($color), 255); // $g: green($color) / 255;
+	$b: math.div(blue($color), 255); // $b: blue($color) / 255;
+	$a: $opacity;
+
+	// Grayscale fallback if SVG from data URL is not supported.
+	$lightness: lightness($color);
+	filter: saturate(0%) brightness(0%) invert($lightness) opacity($opacity);
+
+	// Color filter.
+	$svg_filter_id: "recolor";
+	filter: url("data:image/svg+xml;utf8,\
+		<svg xmlns='http://www.w3.org/2000/svg'>\
+			<filter id='#{$svg_filter_id}' color-interpolation-filters='sRGB'>\
+				<feColorMatrix type='matrix' values='\
+					0 0 0 0 #{$r}\
+					0 0 0 0 #{$g}\
+					0 0 0 0 #{$b}\
+					0 0 0 #{$a} 0\
+				'/>\
+			</filter>\
+		</svg>\
+		##{$svg_filter_id}");
+}
+
+// scss-docs-start color-functions
+// Tint a color: mix a color with white.
+@function tint-color($color, $weight) {
+	@return mix(white, $color, $weight);
+}
+// scss-docs-end color-functions
+
+// scss-docs-start gradient-bg-mixin
+@mixin gradient-bg($color: null) {
+	background-color: $color;
+}
+// scss-docs-end gradient-bg-mixin
+
+
+//
+// Formula
+//
+
+@mixin form_mixin(
+	// `height` <<BEFORE>> the `transition`.
+	$height-default: null,
+	// `padding` <<BEFORE>> the `transition`.
+	$body-padding-default: null,
+	// `padding` <<AFTER>> the `transition`.
+	$label-padding-transformed: null,
+	// `font-size` <<DURING/AFTER>> the `transition`.
+	$label-font-size-transformed: null,
+	// `color` <<BEFORE/AFTER>> the `transition`.
+	$body-color-default: null,
+	// `color` <<BEFORE/AFTER>> the `transition`.
+	$label-color-default: null,
+	// `background-color` <<BEFORE/AFTER>> the `transition`.
+	$body-bg-color-default: null,
+	// `background-color` <<BEFORE/AFTER>> the `transition`.
+	$label-bg-color-default: null,
+	// `color` <<DURING>> the `transition`.
+	$body-color-transformed: null,
+	// `color` <<DURING>> the `transition`.
+	$label-color-transformed: null,
+	// `background-color` <<BEFORE/AFTER>> the `transition`.
+	$body-bg-color-transformed: null,
+	// `background-color` <<DURING>> the `transition`.
+	$label-bg-color-transformed: null,
+	// `border` <<BEFORE/AFTER>> the `transition`.
+	$border: null,
+	// `border-color` <<DURING>> the `transition`.
+	$border-focus-color: null,
+	// `border-radius` <<BEFORE/AFTER>> the `transition` (check/switch).
+	$check-radius-default: null,
+	// `border-radius` <<BEFORE/AFTER>> the `transition` (everything else).
+	$radius-default: null,
+	// `border-radius` <<DURING>> the `transition` (all transitionable elements).
+	$radius-transformed: null,
+	// `box-shadow` <<DURING>> the `transition`.
+	$box-shadow-focus: null,
+	// <label> `transform` <<DURING>> the `transition`.
+	$label-transform: null,
+	// `transition`.
+	$transition: null
+) {
+	//
+	// Essential tuple and condition handling
+	//
+
+	// `$body-padding-default` tuple.
+	$body-padding-default-t: nth($body-padding-default, 1);
+	$body-padding-default-x: nth($body-padding-default, 2);
+	$body-padding-default-b: nth($body-padding-default, 3);
+
+	// `$label-padding-transformed` tuple.
+	$label-padding-transformed-y: nth($label-padding-transformed, 1);
+	$label-padding-transformed-x: nth($label-padding-transformed, 2);
+
+	// `$border` tuple.
+	$border-width: nth($border, 1);
+	$border-style: nth($border, 2);
+	$border-color: nth($border, 3);
+
+	// `$transition` tuple.
+	$transition-property: nth($transition, 1);
+	$transition-duration: nth($transition, 2);
+	$transition-timing-function: nth($transition, 3);
+
+	// If `$label-transform` is null, uses the default value.
+	$label-transform: if($label-transform == null, calc(#{$body-padding-default-x} + #{$border-width}), $label-transform);
+
+
+	//
+	// General transition values
+	//
+
+	// Parent selectors.
+	input,
+	select,
+	.form-check,
+	.form-floating,
+	.form-range,
+	.form-switch,
+	.input-group,
+	.select-chevron {
+		transition: $transition;
+
+		// Parent selectors on the `::after` pseudo-element and direct children selectors <<DURING>> transition.
+		&::before,
+		&::after,
+		> label,
+		> .btn-check,
+		> .btn-check-label,
+		> .form-check-input,
+		> .form-check-label,
+		> .form-control,
+		> .form-label,
+		> .form-select,
+		> .input-group-text,
+		> ::before,
+		> ::after {
+			transition: $transition;
+		}
+	}
+
+	// Direct children selectors <<DURING>> `:hover` transition.
+	label,
+	.form-check-label,
+	.form-label,
+	.form-select {
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+	// Direct children selectors <<DURING>> `:active` transition.
+	label,
+	.form-check-input,
+	.form-check-label,
+	.form-control,
+	.form-label,
+	.form-select {
+		&:active {
+			cursor: progress;
+		}
+	}
+
+
+	//
+	// General form controls (plus a few specific high-level interventions)
+	//
+
+	// Generic wrapper
+	* {
+		// Style <<BEFORE/AFTER>> transition.
+		> .form-control:not([type="file"]),
+		> .form-select {
+			height: $height-default;
+			line-height: 1em;
+			color: $body-color-default;
+			background-color: $body-bg-color-default;
+			border: $border;
+			border-radius: $radius-default;
+			// animation-name: autofill_out_primary;
+			// animation-duration: $transition-duration;
+			// animation-timing-function: ease-in-out;
+			// animation-fill-mode: both;
+
+			// Style <<DURING>> `:focus` transition.
+			&:focus {
+				color: $body-color-transformed;
+				background-color: $body-bg-color-transformed;
+				border: $border;
+				// animation-name: autofill_out_secondary;
+				// animation-duration: $transition-duration;
+				// animation-timing-function: ease-in-out;
+				// animation-fill-mode: both;
+
+				// Necessary to reset state on `:-webkit-autofill` mouseleave.
+				// transition: $transition, color 0s, background-color 0s;
+			}
+
+			// &[required] {
+			// 	// Style <<BEFORE/AFTER>> transitioning.
+			// 	&::after {
+			// 		content: "*";
+			// 		min-height: 0;
+			// 		padding: $label-padding-transformed;
+			// 		line-height: 1em;
+			// 		color: $label-color-default;
+			// 		background-color: $label-bg-color-default;
+			// 		border: $border;
+			// 		border-radius: $radius-transformed;
+			// 		box-shadow: none;
+			// 		transform: scale(.85) translateY(calc((-50% + (#{$border-width} / 2)) + ((#{$border-width} / 2) * (15 / 85)))) translateX(calc(#{$label-transform} + (#{$label-transform} * (15 / 85))));
+
+			// 		position: absolute;
+			// 		top: 0;
+			// 		left: 0;
+			// 		padding: 1rem 1.25rem;
+			// 		max-width: 100%;
+			// 		max-height: 100%;
+			// 		overflow: hidden;
+			// 		color: rgba(0, 0, 0, 0.65);
+			// 		text-align: start;
+			// 		text-overflow: ellipsis;
+			// 		white-space: nowrap;
+			// 		pointer-events: none;
+
+			// 		// min-height: $height-default;
+			// 		// padding: .05em $body-padding-default-x 0;
+			// 		// line-height: calc($height-default - $border-width);
+			// 		// color: $body-color-default;
+			// 		// // background-color: $label-bg-color-default;
+			// 		// border: $border;
+			// 		// border-color: transparent;
+			// 		// // transform-origin: calc($body-padding-default-x + $border-width) 0;
+			// 		// transform-origin: $label-transform 0;
+			// 	}
+			// }
+		}
+
+		// .editor-container {
+		// 	display: flex;
+		// 	flex-wrap: wrap;
+		// 	resize: vertical;
+		// 	overflow: hidden;
+		// }
+
+		> textarea,
+		> iframe body {
+			&.form-control {
+				// flex-grow: 1;
+				padding: $body-padding-default !important;
+				line-height: 1.25 !important;
+				resize: vertical;
+				transition: $transition, height 0s !important;
+			}
+		}
+
+		// Style <<BEFORE/AFTER>> transition.
+		> .form-control:not([type="file"]),
+		> .form-control-plaintext {
+			// position: relative;
+			padding: .1em $body-padding-default-x 0;
+			// line-height: $height-default !important;
+			// Necessary to reset state on `:-webkit-autofill` mouseleave.
+			// transition: $transition, color 0s, background-color 0s, box-shadow 0s !important;
+
+			// Pseudo-element <<BEFORE/AFTER>> `:focus` transition.
+			&::placeholder {
+				color: $body-color-default;
+			}
+
+			// Element <<DURING>> `:focus` transition (necessary to reset state).
+			&:focus {
+				box-shadow: none;
+				// Necessary to reset state on `:-webkit-autofill` mouseleave.
+				// transition: $transition, color 0s, background-color 0s, box-shadow 0s;
+
+				// Pseudo-element <<DURING>> `:focus` transition.
+				&::placeholder {
+					color: $body-color-transformed;
+				}
+			}
+
+			// Style <<DURING>> `:not(:placeholder-shown)` transition (necessary to trigger the pseudo-class).
+			&:not(:placeholder-shown) {
+				color: $body-color-transformed;
+				background-color: $body-bg-color-transformed;
+				border-color: $border-focus-color;
+				box-shadow: $box-shadow-focus;
+
+				// Style <<DURING>> `:not(:placeholder-shown, focus)` transition (necessary to reset style <<AFTER>> the `:focus` state is removed).
+				&:not(:focus) {
+					color: $body-color-default;
+					background-color: $body-bg-color-default;
+					border: $border;
+					box-shadow: none;
+					// animation-name: autofill_noPlace_noFocus_primary;
+					// animation-duration: 0;
+					// animation-delay: 0;
+					// animation-timing-function: ease-in-out;
+					// animation-fill-mode: both;
+
+					// Necessary to reset state on `:-webkit-autofill` mouseleave.
+					// transition: $transition, box-shadow 0s, color 0s, background-color 0s !important;
+					// transition: box-shadow 0s !important;
+				}
+			}
+		}
+
+		// Style <<BEFORE/AFTER>> transition (necessary because its initial setting is different than that of the `.form-control`).
+		> .form-select {
+			// background-color: $body-bg-color-default;
+			padding-top: .1em;
+			padding-bottom: 0;
+			padding-left: $body-padding-default-x;
+			line-height: 1.25;
+			// line-height: calc($height-default - calc($border-width * 2)) !important;
+			// See https://stackoverflow.com/a/55002367
+			background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23#{str-slice(inspect($body-color-default), 2)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+			// transition: $transition, color 0s, background-color 0s, box-shadow 0s !important; // !important flag required duo to specificity issues
+
+			// Style <<DURING>> `:focus` transition.
+			&:focus {
+				border-color: $border-focus-color;
+				box-shadow: $box-shadow-focus;
+				// background-color: $body-bg-color-transformed;
+				// See https://stackoverflow.com/a/55002367
+				background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' transform='180' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23#{str-slice(inspect($body-color-transformed), 2)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+			}
+
+			// Style <<DURING>> `:active` transition.
+			&:active {
+				border: $border;
+				box-shadow: none;
+			}
+
+			// Style <<DURING>> `:disabled` transition.
+			option:disabled {
+				color: $body-color-default;
+				background-color: $body-bg-color-default;
+			}
+		}
+
+		// Firefox 67 (2019-05-21)–94 (2021-11-02; excluding).
+		> .form-control {
+			&:-moz-autofill, // Fallback selector
+			&:-moz-autofill-preview { // Fallback selector
+				filter: none;
+			}
+		}
+
+		// Duplicated because `:autofill` invalidates other selectors when grouped.
+		// > .form-control:autofill, // Firefox 94 and newer
+		// > textarea:autofill { // Firefox 94 and newer
+		// 	animation-name: autofill_in_secondary;
+		// 	animation-delay: 0;
+		// 	animation-fill-mode: both;
+		// 	background-image: unset;
+
+		// Style <<DURING>> `:not(:focus)` transition.
+		// 	&:not(:focus) {
+		// 		animation-name: autofill_in_primary;
+		// 		animation-delay: 0;
+		// 		animation-fill-mode: both;
+		// 	}
+		// }
+
+		// Style <<DURING>> `:autofill` transition.
+		// > .form-select:autofill { // Firefox 94 and newer
+		// 	&:not([type="file"]) {
+		// 		&:not(:placeholder-shown) {
+		// 			transition: 0s; // Necessary to reset state.
+
+		// 			&:focus {
+		// 				animation-name: autofill_in_secondary;
+		// 				animation-duration: $transition-duration;
+		// 				animation-delay: 0;
+		// 				animation-fill-mode: both;
+		// 				background-image: unset;
+		// 			}
+
+		// 			// `:autofill` <<DURING>> `:not(:focus)` transition.
+		// 			&:not(:focus) {
+		// 				animation-name: autofill_in_primary;
+		// 				animation-duration: $transition-duration;
+		// 				animation-delay: 0;
+		// 				animation-fill-mode: both;
+		// 			}
+		// 		}
+		// 	}
+
+		// Style <<DURING>> `:autofill` transition.
+		// 	option {
+		// 		color: $body-color-transformed;
+		// 		background-color: $body-bg-color-transformed;
+		// 	}
+		// }
+
+		// Duplicated because `:-webkit-autofill` invalidates other selectors when grouped.
+		// &::-webkit-selection {
+		// 					  color: orange;
+		// 	-webkit-text-fill-color: orange;
+		// 	background-color: gray;
+		// }
+
+		> input.form-control:-webkit-autofill:not([type="file"], :placeholder-shown), // WebKit specific
+		> textarea:-webkit-autofill,
+		> select.form-select:-webkit-autofill { // WebKit specific
+		// > select.form-select:-internal-autofill-selected { // WebKit specific
+		// > input.form-control:-internal-autofill-previewed { // WebKit specific
+			// transition: box-shadow 0s; // Necessary to reset state.
+			// Necessary to reset state on `:-webkit-autofill` mouseleave.
+			// transition: $transition, color 0s, background-color 0s, box-shadow 0s;
+			transition: none;
+
+			&:focus {
+				-webkit-text-fill-color: $body-color-transformed; // WebKit specific
+								//   color: $body-color-transformed;
+				// background-color:		 $body-bg-color-transformed;
+				box-shadow:				 (inset 0 0 0 30px rgba($body-bg-color-transformed, 1), $box-shadow-focus) !important;
+			}
+
+			// Style <<DURING>> `:not(:focus)` transition.
+			&:not(:focus) {
+				-webkit-text-fill-color: $body-color-default; // WebKit specific
+								//   color: $body-color-default;
+				// background-color:		 $body-bg-color-default;
+				box-shadow:				 inset 0 0 0 30px rgba($body-bg-color-default, 1) !important;
+			}
+		}
+
+		// > .form-control::-internal-input-suggested {
+		// 	color: $body-color-default;
+		// 	background-color: $body-bg-color-default;
+		// }
+
+		// > .form-control::-webkit-input-placeholder {
+		// 	position: absolute;
+		// 	top: calc(50% + $border-width);
+		// 	transform: translateY(calc(-50% - $border-width));
+		// 	-webkit-text-fill-color: orange;
+		// 					  color: orange;
+		// 	background-color: gray;
+		// }
+
+		// > .form-control:internal-autofill-preview {
+		// 	-webkit-text-fill-color: orange;
+		// 					  color: orange;
+		// 	background-color: gray;
+		// }
+
+		> .form-select:-internal-autofill-selected { // WebKit specific
+			// See https://stackoverflow.com/a/55002367
+			// background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23#{str-slice(inspect($body-color-default), 2)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+
+			// Style <<DURING>> `:-webkit-autofill` transition.
+			option {
+				color: $body-color-transformed;
+				background-color: $body-bg-color-transformed;
+			}
+		}
+
+		// Style <<DURING>> `:-webkit-autofill` transition.
+		// > .form-select:-webkit-autofill {
+		// transition: 0s; // Necessary to reset state.
+		// transition: box-shadow 0s; // Necessary to reset state.
+
+		// 	&:focus {
+		// 		-webkit-text-fill-color: $body-color-transformed; // WebKit specific
+		// 						//   color: $body-color-transformed;
+		// 		// background-color: $body-bg-color-transformed;
+		// 		box-shadow: (inset 0 0 0 30px rgba($body-bg-color-transformed, 1), $box-shadow-focus); // WebKit specific
+		// 	}
+
+		// Style <<DURING>> `:not(:focus)` transition.
+		// 	&:not(:focus) {
+		// 		-webkit-text-fill-color: $body-color-default; // WebKit specific
+		// 						//   color: $body-color-default;
+		// 		// background-color: $body-bg-color-default;
+		// 		box-shadow: inset 0 0 0 30px rgba($body-bg-color-default, 1); // WebKit specific
+		// 	}
+
+		// Style <<DURING>> `:-webkit-autofill` transition.
+		// option {
+		// 	color: $body-color-transformed;
+		// 	background-color: $body-bg-color-transformed;
+		// }
+		// }
+
+		// Style <<BEFORE/AFTER>> transition.
+		> .form-control[type="file"] {
+			height: $height-default;
+			padding: calc(($body-padding-default-t + $body-padding-default-b) / 2) $body-padding-default-x;
+			color: $body-color-default;
+			background-color: $body-bg-color-default;
+			border: $border;
+			border-radius: $radius-default;
+			box-shadow: none;
+
+			// Pseudo-element <<BEFORE/AFTER>> transition.
+			&::file-selector-button,
+			&::-webkit-file-upload-button {
+				color: $label-color-transformed;
+				background-color: $label-bg-color-transformed;
+				border-inline-end-width: 1px;
+				transition: $transition;
+			}
+
+			// Pseudo-element <<BEFORE/AFTER>> transition.
+			// &::-webkit-file-upload-button {
+			// 	color: $label-color-transformed;
+			// 	background-color: $label-bg-color-transformed;
+			// 	border-inline-end-width: 1px;
+			// }
+
+			// Element <<DURING>> `:hover` transition.
+			&:hover {
+				// `:not(:disabled, [readonly])` <<DURING>> `:hover` transition.
+				// &:not(:disabled, [readonly]) {
+				&:not(:disabled):not([readonly]) {
+					&:not(:active) {
+						// Pseudo-element <<DURING>> `:hover` transition.
+						&::file-selector-button,
+						&::-webkit-file-upload-button {
+							// color: rgba($label-color-transformed, .8);
+							// background-color: rgba($label-bg-color-transformed, .8);
+							// color: $label-color-transformed;
+							// background-color: $label-bg-color-transformed;
+							color: $label-color-transformed;
+							background-color: mix(black, $label-bg-color-transformed, 5%);
+							// background-image: linear-gradient(180deg, rgba($label-bg-color-transformed, .15), rgba($label-bg-color-transformed, 0));
+						}
+					}
+
+					// &:active {
+					// 	// Pseudo-element <<DURING>> `:hover` transition.
+					// 	&::file-selector-button,
+					// 	&::-webkit-file-upload-button {
+					// 		background-image: linear-gradient(180deg, rgba($label-bg-color-default, .15), rgba($label-bg-color-default, 0));
+					// 	}
+					// }
+				}
+
+				// > label {
+				// 	cursor: pointer;
+				// }
+			}
+
+			// Style <<DURING>> `:active` transition.
+			&:active {
+				box-shadow: none;
+
+				&:not(:disabled):not([readonly]) {
+					cursor: progress;
+
+					&:hover {
+						// Pseudo-element <<DURING>> `:hover` transition.
+						&::file-selector-button,
+						&::-webkit-file-upload-button {
+							color: $label-color-default;
+							background-color: mix(black, $label-bg-color-default, 5%);
+							// background-image: linear-gradient(180deg, rgba($label-bg-color-default, .15), rgba($label-bg-color-default, 0));
+						}
+					}
+
+					&:not(:hover) {
+						// Pseudo-element <<DURING>> `:hover` transition.
+						&::file-selector-button,
+						&::-webkit-file-upload-button {
+							// color: rgba($label-color-transformed, .8);
+							// background-color: rgba($label-bg-color-transformed, .8);
+							// color: $label-color-transformed;
+							// background-color: $label-bg-color-transformed;
+							color: $label-color-default;
+							background-color: $label-bg-color-default;
+							// background-image: none;
+						}
+					}
+				}
+			}
+
+			// Style <<DURING>> `:focus` transition.
+			&:focus {
+				color: $body-color-transformed;
+				background-color: $body-bg-color-transformed;
+
+				&:not(:active) {
+					border-color: $border-focus-color;
+					box-shadow: $box-shadow-focus;
+				}
+			}
+
+			> label {
+				cursor: pointer;
+			}
+
+			// Style <<DURING>> `:not(:disabled, [readonly])` transition.
+			// &:not(:disabled):not([readonly]) {
+			// 	// Style <<DURING>> `:active` transition.
+			// 	&:active {
+			// 		cursor: progress;
+			// 	}
+			// }
+		}
+
+		// Style <<BEFORE/DURING/AFTER>> transition.
+		.input-group {
+			// Style <<BEFORE>> transition.
+			.input-group-text {
+				height: $height-default;
+				color: $label-color-default;
+				background-color: $label-bg-color-default;
+				border: $border;
+				border-radius: $radius-default;
+
+				// Style <<DURING>> `:focus` transition.
+				&:focus {
+					color: $label-color-transformed;
+					background-color: $label-bg-color-transformed;
+				}
+			}
+
+			// Style <<DURING>> `.input-group:has(.form-control:not([type="file"], :placeholder-shown)` transition.
+			// &:has(.form-control:not([type="file"], :placeholder-shown)) {
+			&:has(.form-control:not([type="file"]:placeholder-shown)) {
+				// Element <<DURING>> parent's `.input-group:has(.form-control:not([type="file"], :placeholder-shown)` transition.
+				.input-group-text {
+					// color: $label-color-default;
+					// background-color: $label-bg-color-default;
+					border-color: $border-focus-color;
+					// box-shadow: $box-shadow-focus;
+				}
+			}
+
+			// Style <<DURING>> `.input-group:has(.form-control:not([type="file"], :placeholder-shown, :focus)` transition (necessary to reset style <<AFTER>> `:focus` state is removed.
+			&:has(.form-control:not([type="file"], :placeholder-shown, :focus)) {
+				// Element <<DURING>> parent's `.input-group:has(.form-control:not([type="file"], :placeholder-shown, :focus)` transition (necessary to reset style <<AFTER>> `:focus` state is removed.
+				.input-group-text {
+					color: $label-color-default;
+					background-color: $label-bg-color-default;
+				}
+			}
+		}
+
+		// `* > input[type="date"]`'s individual style <<BEFORE/AFTER>> the `transition`.
+		> input[type="date"] {
+			width: 100%;
+			height: $height-default;
+			min-width: 175px;
+			color: $body-color-default;
+			background-color: $body-bg-color-default;
+			border: $border;
+			border-radius: $radius-default;
+			padding: 0 $body-padding-default-x;
+			appearance: none;
+
+			// `* > input[type="date"]`'s individual style <<DURING>> the `:hover` state.
+			// &:hover {
+			// 	opacity: .8;
+			// }
+
+			// `* > input[type="date"]`'s individual style <<DURING>> the `:active` state.
+			// &:active {
+			// 	cursor: progress;
+			// }
+
+			// `* > input[type="date"]`'s individual style <<DURING>> the `:focus` state.
+			&:focus {
+				border-color: $border-focus-color;
+				box-shadow: $box-shadow-focus;
+			}
+
+			// `* > input[type="date"]`'s individual style <<DURING>> the `:focus-visible` state.
+			&:focus-visible {
+				outline: none;
+			}
+
+			// `* > input[type="date"]`'s pseudo-elements' <<BEFORE/AFTER>> transitioning.
+			&::-webkit-datetime-edit { padding: 0; }
+			&::-webkit-datetime-edit-fields-wrapper { background: $body-bg-color-default; }
+			&::-webkit-datetime-edit-text { color: $body-color-default; padding: 0 0.3em; }
+			&::-webkit-datetime-edit-minute { color: $body-color-default; }
+			&::-webkit-datetime-edit-hour-field { color: $body-color-default; }
+			&::-webkit-datetime-edit-day-field { color: $body-color-default; }
+			&::-webkit-datetime-edit-month-field { color: $body-color-default; }
+			&::-webkit-datetime-edit-year-field { color: $body-color-default; }
+			&::-webkit-inner-spin-button { display: none; }
+			// The `<input type="date"]>`'s calendar icon is a shadow DOM element whose colors are set through `background-image` and therefore independently unchangeable, which makes it impossible to conform to the project's color palette.
+			&::-webkit-calendar-picker-indicator {
+				// The following solution replaces the system's default icon with a nearly identical SVG and then passes a mixin that automatically creates a filter based on the desired color.
+				background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='15' viewBox='0 0 24 24'><path fill='%23303030' d='M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z'/></svg>"); // Custom calendar icon SVG
+				@include recolor($body-color-default, 1); // `filter` mixin
+				opacity: .8;
+				cursor: pointer;
+				// transition: $transition; // uncertain about this one
+
+				// `input[type="date"]::-webkit-calendar-picker-indicator` <<DURING>> `:hover` transition.
+				&:hover { opacity: 1; }
+
+				// `input[type="date"]::-webkit-calendar-picker-indicator` <<DURING>> `:active` transition.
+				&:active { cursor: progress; }
+			}
+
+			// `* > input[type="date"]`'s pseudo-elements' <<DURING>> transition.
+			&::-webkit-datetime-edit,
+			&::-webkit-datetime-edit-fields-wrapper,
+			&::-webkit-datetime-edit-text,
+			&::-webkit-datetime-edit-minute,
+			&::-webkit-datetime-edit-hour-field,
+			&::-webkit-datetime-edit-day-field,
+			&::-webkit-datetime-edit-month-field,
+			&::-webkit-datetime-edit-year-field,
+			&::-webkit-inner-spin-button {
+				// Style <<DURING>> `:active` transition.
+				// &:active {
+				// 	cursor: progress;
+				// }
+
+				// Style <<DURING>> `:focus` transition.
+				&:focus {
+					color: $body-color-transformed;
+					background-color: $body-bg-color-transformed;
+				}
+			}
+		}
+
+		// `[required]` field visual
+		&:has(> .form-control:not([type="file"], .d-none)[required], > .form-select:not(.d-none)[required]) {
+			position: relative;
+
+			&::before {
+				content: "\1F7B6";
+				position: absolute;
+				right: 0;
+				bottom: $height-default;
+				width: calc(1em + (#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2));
+				height: calc(1em + (#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2));
+				max-width: $height-default;
+				max-height: 100%;
+				padding: $label-padding-transformed-y;
+				overflow: hidden;
+				font-size: $label-font-size-transformed;
+				line-height: 1em;
+				text-align: center;
+				vertical-align: middle;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				color: $label-color-default;
+				background-color: $label-bg-color-default;
+				border: $border;
+				border-color: $border-focus-color;
+				border-radius: 50%;
+				// transform: scale(.85) translateX(calc(0% - #{$label-transform} - (#{$label-transform} * (15 / 85)))) translateY(calc(50% + (#{$border-width} / 2) + ((#{$border-width} / 2) * (15 / 85))));
+				transform: scale(.85) translateX(calc(0% - #{$label-transform} - (#{$label-transform} * 0.17647059))) translateY(calc(50% + (#{$border-width} / 2) + ((#{$border-width} / 2) * 0.17647059)));
+				transform-origin: 100% 100%;
+				// transform: scale(.85) translateX(calc(0% - #{$label-transform})) translateY(calc(50% + (#{$border-width} / 2)));
+				// transform-origin: calc(100% - #{$label-transform}) calc(100% + (#{$border-width} / 2));
+			}
+		}
+
+		// select chevron visual
+		// Wrapper class (used to overlap the default `.form-select`'s chevron set on `background-image` with a solid triangle).
+		&:has(> .select-chevron) {
+			position: relative;
+
+			// Reset `background-image`.
+			> .form-select {
+			// > ::-webkit-calendar-picker-indicator {
+				// background-image: linear-gradient(to right, $border-color 0, $border-color calc(#{$border-width} * (85 / 100)), $body-bg-color-default calc(#{$border-width} * (85 / 100)), $body-bg-color-default);
+				background-image: linear-gradient(to right, $border-color 0, $border-color calc(#{$border-width} * 0.85), $body-bg-color-default calc(#{$border-width} * 0.85), $body-bg-color-default);
+				// background-size: calc((#{$body-padding-default-x} * 2) + (#{$border-width} * (85 / 100)) + min(calc((#{$label-font-size-transformed} + ((#{strip-unit($label-padding-transformed-y)} * 2) * #{$label-font-size-transformed}) + (#{$border-width} * 2)) * (85 / 100)), calc(#{$height-default} * (85 / 100)))) 100%;
+				background-size: calc((#{$body-padding-default-x} * 2) + (#{$border-width} * 0.85) + min(calc((#{$label-font-size-transformed} + ((#{strip-unit($label-padding-transformed-y)} * 2) * #{$label-font-size-transformed}) + (#{$border-width} * 2)) * 0.85), calc(#{$height-default} * 0.85))) 100%;
+				background-repeat: no-repeat;
+				background-position: right center;
+				background-blend-mode: multiply;
+				appearance: none;
+				// appearance: none !important; // `!important` clause required
+			}
+
+			// Chevron <<BEFORE/AFTER>> transitioning.
+			&::after {
+				content: '';
+				position: absolute;
+				right: 0;
+				bottom: calc(#{$height-default} / 2);
+				width: calc(1em + (#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2));
+				height: calc((1em + (#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2)) / 2);
+				max-width: $height-default;
+				max-height: 100%;
+				font-size: $label-font-size-transformed;
+				line-height: 1em;
+				background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 8'%3e%3cpath fill='%23#{str-slice(inspect($body-color-default), 2)}' d='M0.035 8l8-8 8 8z'/%3e%3c/svg%3e");
+				background-size: 100%;
+				background-repeat: no-repeat;
+				background-position: center;
+				// transform: scale(0.85) translateX(calc(((((15% / 2) * 85) / 100) + ((#{$border-width} * 100) / 85)) - ((#{$label-transform} * 100) / 85))) translateY(calc((50% * 100) / 85)) rotate(0deg);
+
+				// transform: scale(0.85) translateX(calc((50% * (15 / 85)) - #{$label-transform} - (#{$label-transform} * (15 / 85)))) translateY(calc(50% * (100 / 85))) rotate(0deg);
+				transform: scale(0.85) translateX(calc((50% * 0.17647059) - #{$label-transform} - (#{$label-transform} * 0.17647059))) translateY(calc(50% * 1.17647059)) rotate(0deg);
+
+				// transform: scale(0.85) translateX(calc(((15% / 2) * (100 / 85)) - #{$label-transform} - (#{$label-transform} * (15 / 85)))) translateY(calc(50% * (100 / 85))) rotate(0deg); atual
+
+				// transform: scale(0.85) translateX(calc((((15% / 2) * 100) / 85) - (((calc(1.25rem + 1px)) * 15) / 85) - (calc(1.25rem + 1px)))) translateY(calc((50% * 100) / 85)) rotate(0deg); ESSE AQUI é O BOMMMMMMMMMMMM
+				// transform: scale(0.85) translateX(calc((7.5% * 100 / 85) - ((1.25rem + 1px) * 15 / 85) - (1.25rem + 1px))) translateY(calc((50% * 100) / 85)) rotate(0deg); ESSE AQUI é O BOMMMMMMMMMMMM
+
+				// transform: scale(0.85) translateX(calc(7.5% - ((1.25rem + 1px) * 100 / 85))) translateY(50%) rotate(0deg); // ESSE AQUI EH O BOM
+			}
+
+
+			&:focus-within {
+				&::after {
+					background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 8'%3e%3cpath fill='%23#{str-slice(inspect($body-color-transformed), 2)}' d='M0.035 8l8-8 8 8z'/%3e%3c/svg%3e");
+					// transform: scale(0.85) translateX(calc(((15% / 2) * (100 / 85)) - #{$label-transform} - (#{$label-transform} * (15 / 85)))) translateY(calc(50% * (100 / 85))) rotate(180deg);
+					transform: scale(0.85) translateX(calc((50% * 0.17647059) - #{$label-transform} - (#{$label-transform} * 0.17647059))) translateY(calc(50% * 1.17647059)) rotate(180deg);
+				}
+			}
+
+			&:hover {
+				&::after {
+					cursor: pointer;
+				}
+			}
+
+			&:active {
+				&::after {
+					cursor: progress;
+				}
+			}
+
+
+			// Chevron <<BEFORE/AFTER>> transitioning.
+			// &::after {
+			// 	content: '';
+			// 	position: absolute;
+			// 	// right: 1.94rem;
+			// 	right: calc(#{$body-padding-default-x} + #{$border-width});
+			// 	bottom: calc($height-default / 2);
+			// 	// width: calc(1em + ((#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2)));
+			// 	transform: scale(.85) translateY(50%) translateX(calc((15% - #{$border-width}) / 2)) rotate(0deg);
+			// 	// transform-origin: calc(100% - #{$label-transform}) center;
+			// 	font-size: $label-font-size-transformed;
+			// 	// translateX(calc((-50% - (6px / 2)) - (50% - calc(1em - (((0.15em * 2) + (1px)) / 2))) - (1.25rem + 1px)))
+			// 	border-top: calc((1em + ((#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2))) / 2) solid $body-color-default;
+			// 	border-right: calc((1em + ((#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2))) / 2) solid transparent;
+			// 	border-left: calc((1em + ((#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2))) / 2) solid transparent;
+			// 	pointer-events: none;
+			// 	z-index: 1;
+			// }
+
+			// Chevron <<DURING>> `:focus-within::after` transition (pseudo-classes must come before pseudo-elements for it to work).
+			// &:focus-within::after {
+			// 	// top: 43.75%;
+			// 	right: calc(#{$body-padding-default-x} + #{$border-width});
+			// 	bottom: calc($height-default / 2);
+			// 	// width: calc(1em + ((#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2)));
+			// 	transform: scale(.85) translateY(50%) translateX(calc((15% - #{$border-width}) / 2)) rotate(-180deg);
+			// 	// transform-origin: calc(100% - #{$label-transform}) center;
+			// 	font-size: $label-font-size-transformed;
+			// 	// translateX(calc((-50% - (6px / 2)) - (50% - calc(1em - (((0.15em * 2) + (1px)) / 2))) - (1.25rem + 1px)))
+			// 	border-top-color: $body-color-transformed;
+			// 	z-index: 6;
+			// }
+		}
+	}
+
+
+	//
+	// Floating labels
+	//
+
+	// Wrapper class (necessary to overlap the default `form` style).
+	.form-floating {
+		// Style <<BEFORE/AFTER>> transitioning.
+		> .form-control:focus,
+		> .form-control:not(:placeholder-shown),
+		> .form-control-plaintext,
+		> .form-select {
+			~ label {
+				// max-width: calc((100% + ((100% - 85%) * (100 / 85))) - (((#{$body-padding-default-x} * 3) + (#{$border-width} * 2)) * (100 / 85)) - min(calc(1em + (#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2)), #{$height-default}));
+				max-width: calc((100% + ((100% - 85%) * 1.17647059)) - (((#{$body-padding-default-x} * 3) + (#{$border-width} * 2)) * 1.17647059) - min(calc(1em + (#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2)), #{$height-default}));
+				font-size: $label-font-size-transformed;
+			}
+		}
+
+		// Style <<BEFORE/AFTER>> transitioning.
+		> .form-control:not([type="file"]),
+		> .form-control-plaintext,
+		> .form-select {
+			// Style <<BEFORE/AFTER>> transitioning.
+			// background-color: $$body-bg-color-default;
+			height: $height-default;
+
+			// Style <<DURING>> `:focus` transition.
+			&:focus {
+				// border-color: $border-focus-color;
+				// box-shadow: $box-shadow-focus;
+
+				// Element <<DURING>> parent's `:focus` transition.
+				~ label {
+					min-height: 0;
+					padding: $label-padding-transformed;
+					line-height: 1em;
+					color: $label-color-transformed;
+					background-color: $label-bg-color-transformed;
+					border: $border;
+					border-radius: $radius-transformed;
+					box-shadow: none;
+					// transform: scale(.85) translateX(calc(#{$label-transform} + (#{$label-transform} * (15 / 85)))) translateY(calc((-50% + (#{$border-width} / 2)) + ((#{$border-width} / 2) * (15 / 85))));
+					transform: scale(.85) translateX(calc(#{$label-transform} + (#{$label-transform} * 0.17647059))) translateY(calc((-50% + (#{$border-width} / 2)) + ((#{$border-width} / 2) * 0.17647059)));
+				}
+			}
+		}
+
+		// Style <<BEFORE/AFTER>> transitioning.
+		> .form-control:not([type="file"]),
+		> .form-control-plaintext {
+			padding-top: $body-padding-default-t;
+			padding-bottom: $body-padding-default-b;
+
+			// Style <<DURING>> `:focus` transition.
+			&:focus {
+				&::placeholder {
+					color: $body-color-transformed;
+				}
+			}
+
+			// Style <<DURING>> `:not(:placeholder-shown)` transition (necessary to change state).
+			&:not(:placeholder-shown) {
+				border-radius: $radius-default;
+
+				// Style <<DURING>> `:not(:placeholder-shown, :focus)` transition (necessary to reset state <<AFTER>> `:focus` is removed).
+				&:not(:focus) {
+					border: $border;
+					box-shadow: none;
+
+					// Element <<DURING>> parent's `:not(:placeholder-shown, :focus)` transition (necessary to reset state <<AFTER>> `:focus` is removed).
+					~ label {
+						min-height: 0;
+						padding: $label-padding-transformed;
+						line-height: 1em;
+						color: $label-color-default;
+						background-color: $label-bg-color-default;
+						border: $border;
+						border-radius: $radius-transformed;
+						box-shadow: none;
+						// transform: scale(.85) translateX(calc(#{$label-transform} + (#{$label-transform} * (15 / 85)))) translateY(calc((-50% + (#{$border-width} / 2)) + ((#{$border-width} / 2) * (15 / 85))));
+						transform: scale(.85) translateX(calc(#{$label-transform} + (#{$label-transform} * 0.17647059))) translateY(calc((-50% + (#{$border-width} / 2)) + ((#{$border-width} / 2) * 0.17647059)));
+					}
+				}
+
+				&::placeholder {
+					color: transparent;
+				}
+
+				// `<label>` <<DURING>> the `.form-floating .form-control:not(:placeholder-shown)` state.
+				~ label {
+					border-color: $border-focus-color;
+				}
+
+				// Element <<DURING>> parent's `:not(:placeholder-shown)` transition.
+				// ~ label {
+				// 	border: $border;
+				// border-color: $border-focus-color;
+				// 	border-radius: $radius-transformed;
+				// box-shadow: $box-shadow-focus;
+				// 	transform: scale(.85) translateY(-50%) translateX(calc(1.25rem + $border-width));
+				// }
+			}
+
+			&::placeholder {
+				color: transparent;
+			}
+
+			&.label-placeholder { // start w/ `::placeholder` and transformed `<label>`
+				&::placeholder {
+					color: $body-color-default;
+				}
+
+				&:focus {
+					&::placeholder {
+						color: $body-color-transformed;
+					}
+
+					// Element <<DURING>> parent's `:focus` transition.
+					~ label {
+						color: $label-color-transformed;
+						background-color: $label-bg-color-transformed;
+					}
+
+					&:not(:placeholder-shown) {
+						// Element <<DURING>> parent's `:focus` transition.
+						~ label {
+							// color: $label-color-transformed;
+							// background-color: $label-bg-color-transformed;
+							border-color: $border-focus-color;
+						}
+					}
+				}
+
+				// Element <<DURING>> parent's `:focus` transition.
+				~ label {
+					// max-width: calc((100% + ((100% - 85%) * (100 / 85))) - (((#{$body-padding-default-x} * 3) + (#{$border-width} * 2)) * (100 / 85)) - min(calc(1em + (#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2)), #{$height-default}));
+					max-width: calc((100% + ((100% - 85%) * 1.17647059)) - (((#{$body-padding-default-x} * 3) + (#{$border-width} * 2)) * 1.17647059) - min(calc(1em + (#{$label-padding-transformed-y} * 2) + (#{$border-width} * 2)), #{$height-default}));
+					min-height: 0;
+					padding: $label-padding-transformed;
+					font-size: $label-font-size-transformed;
+					line-height: 1em;
+					color: $label-color-default;
+					background-color: $label-bg-color-default;
+					border: $border;
+					border-radius: $radius-transformed;
+					box-shadow: none;
+					// transform: scale(.85) translateX(calc(#{$label-transform} + (#{$label-transform} * (15 / 85)))) translateY(calc((-50% + (#{$border-width} / 2)) + ((#{$border-width} / 2) * (15 / 85))));
+					transform: scale(.85) translateX(calc(#{$label-transform} + (#{$label-transform} * 0.17647059))) translateY(calc((-50% + (#{$border-width} / 2)) + ((#{$border-width} / 2) * 0.17647059)));
+				}
+			}
+		}
+
+		// Style <<BEFORE/AFTER>> transitioning (necessary because the `label`'s initial setting must be different than that of the `.form-control`).
+		> .form-select {
+			padding-top: $body-padding-default-t;
+			padding-bottom: $body-padding-default-b;
+			padding-left: $body-padding-default-x;
+			border: $border; // bEssEx overwrite
+
+			// Style <<DURING>> `:focus` transition.
+			&:focus {
+				border-color: $border-focus-color;
+
+				// `<label>` <<DURING>> the `.form-select:focus` state.
+				~ label {
+					color: $label-color-transformed;
+					background-color: $label-bg-color-transformed;
+					border-color: $border-focus-color;
+				}
+			}
+
+			// Style <<DURING>> `:active` transition.
+			&:active {
+				border: $border;
+				box-shadow: none;
+
+				// Element <<DURING>> parent's `:active` transition.
+				~ label {
+					// color: $label-color-default;
+					// background-color: $label-bg-color-default;
+					border: $border;
+				}
+			}
+
+			// Style <<BEFORE/AFTER>> transitioning.
+			~ label {
+				min-height: 0;
+				padding: $label-padding-transformed;
+				line-height: 1em;
+				color: $label-color-default;
+				background-color: $label-bg-color-default;
+				border: $border;
+				border-radius: $radius-transformed;
+				box-shadow: none;
+				// transform: scale(.85) translateX(calc(#{$label-transform} + (#{$label-transform} * (15 / 85)))) translateY(calc((-50% + (#{$border-width} / 2)) + ((#{$border-width} / 2) * (15 / 85))));
+				transform: scale(.85) translateX(calc(#{$label-transform} + (#{$label-transform} * 0.17647059))) translateY(calc((-50% + (#{$border-width} / 2)) + ((#{$border-width} / 2) * 0.17647059)));
+			}
+		}
+
+		// Element's individual style (necessary to reset framework's default).
+		> label {
+			min-height: $height-default;
+			padding: .05em $body-padding-default-x 0;
+			line-height: calc(#{$height-default} - calc(#{$border-width} * 2));
+			color: $body-color-default;
+			// background-color: $label-bg-color-default;
+			border: $border;
+			border-color: transparent;
+			// transform-origin: $label-transform calc(#{$border-width} / 2);
+			transform-origin: 0 0;
+		}
+	}
+
+
+	//
+	// Check/switch/radio
+	//
+
+	// Wrapper class.
+	.form-check {
+		&:has(.btn-check) {
+			padding-left: 0;
+		}
+
+		> .form-check-input {
+			// Check/switch/radio <<BEFORE/AFTER>> the `transition`.
+			background-color: $body-bg-color-default;
+			border: $border;
+
+			// Check/radio <<DURING>> the `:hover:not(:active)` state.
+			&:hover:not(:active) {
+				cursor: crosshair;
+				// Check/radio <<DURING>> the `:hover:checked:not(:active)` state.
+
+				&:checked {
+					cursor: pointer;
+				}
+			}
+
+			// Check/switch <<BEFORE/AFTER>> the `transition`.
+			&[type="checkbox"] {
+				// background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='%23#{str-slice(inspect($label-color-transformed), 2)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>");
+				border-radius: $check-radius-default;
+			}
+
+			// Radio <<BEFORE/AFTER>> the `transition`.
+			&[type="radio"] {
+				// background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='%23#{str-slice(inspect($label-color-transformed), 2)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>");
+
+				// Radio <<DURING>> the `:active` state.
+				// &:active {
+				// 	border-radius: 0;
+				// }
+			}
+
+			&:focus {
+				// background-color: $body-bg-color-transformed;
+
+				&:not(:active) {
+					border-color: $border-focus-color;
+				}
+			}
+
+			// &:not(:focus) {
+			// 	box-shadow: none;
+			// }
+
+			// Check <<DURING>> the `:active` state.
+			&:active {
+				// background-color: $body-bg-color-transformed;
+				// border-radius: 50%;
+			}
+
+			// Check/switch/radio <<DURING>> the `:checked` state (necessary to toggle style <<AFTER>> mouse click).
+			&:checked {
+				// Check/switch <<BEFORE/AFTER>> the `transition`.
+				&[type="checkbox"] {
+					background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='%23#{str-slice(inspect($body-color-transformed), 2)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>");
+				}
+
+				// Radio <<BEFORE/AFTER>> the `transition`.
+				&[type="radio"] {
+					background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23#{str-slice(inspect($body-color-transformed), 2)}'/%3e%3c/svg%3e"), var(--bs-gradient);
+				}
+
+				&:focus {
+					background-color: $body-bg-color-transformed;
+					box-shadow: $box-shadow-focus;
+
+					// &:not(:active) {
+					// 	border-color: $border-focus-color;
+					// }
+				}
+
+				// Check/switch/radio <<DURING>> the `:checked:not(:focus)` state (necessary to reset style <<AFTER>> the `:focus` state is removed).
+				&:not(:focus) {
+					&[type="checkbox"] {
+						background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='%23#{str-slice(inspect($body-color-default), 2)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>");
+					}
+
+					&[type="radio"] {
+						background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23#{str-slice(inspect($body-color-default), 2)}'/%3e%3c/svg%3e"), var(--bs-gradient);
+					}
+
+					// border-color: $border-focus-color !important;
+					// box-shadow: $box-shadow-focus;
+				}
+			}
+
+			// Check/switch/radio <<DURING>> the `:checked` state (necessary to toggle style <<AFTER>> mouse click).
+			&:not(:checked) {
+				box-shadow: none; // bEssEx overwrite
+
+				// Check/switch/radio <<DURING>> the `:focus` state (necessary to reset the framework's default style).
+				&:focus {
+					// background-color: $body-bg-color-transformed;
+					// border-color: $border-focus-color !important;
+					// border-color: $border-focus-color;
+					// box-shadow: none;
+				}
+
+			// 	&:not(:active) {
+
+			// 	}
+			}
+
+			// Check <<BEFORE>> the `transition` (`:indeterminate` pseudo-class's state).
+			&[type="checkbox"]:indeterminate {
+				background-color: $label-bg-color-transformed;
+				border-color: $border-focus-color !important;
+			}
+		}
+
+		> .btn-check {
+			&:not(:checked) {
+				~ .btn-check-label {
+					color: $body-color-default;
+					background-color: $body-bg-color-default;
+					// background-image: none;
+				}
+			}
+
+			&:checked {
+				~ .btn-check-label {
+					color: $body-color-transformed;
+					background-color: $body-bg-color-transformed;
+				}
+			}
+
+			~ .btn-check-label {
+				// width: 100%;
+				height: $height-default;
+				padding: 0 $body-padding-default-x;
+				line-height: $height-default;
+				border-radius: $radius-transformed;
+				-webkit-touch-callout: none;
+				  -webkit-user-select: none;
+				   -khtml-user-select: none;
+					 -moz-user-select: none;
+					  -ms-user-select: none;
+						  user-select: none;
+
+				&:active {
+					// border-radius: $check-radius-default;
+					opacity: .8;
+				}
+			}
+		}
+
+		// `.form-check` <<DURING>> the `:active` state (necessary to extend style behavior when clicking the `<label>`).
+		&:active {
+			// Check/switch/radio <<DURING>> the `.form-check:active` state.
+			> .form-check-input[type="checkbox"],
+			> .form-check-input[type="radio"] {
+			// > .form-check-input[type="radio"]:checked:not(:focus) {
+				&:checked:not(:focus-within) {
+					background-color: $body-bg-color-transformed;
+					// border-color: $border-focus-color;
+					// box-shadow: none;
+				}
+			}
+
+			// Check/switch <<DURING>> the `.form-check:active` state.
+			> .form-check-input[type="checkbox"] {
+				border-radius: 50%;
+
+				&:checked:not(:focus-within) {
+				// Check/switch <<BEFORE/AFTER>> the `transition`.
+					background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='%23#{str-slice(inspect($body-color-transformed), 2)}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>");
+				}
+			}
+
+			// Radio <<DURING>> the `.form-check:active` state.
+			> .form-check-input[type="radio"] {
+				border-radius: 0;
+
+				// Radio <<BEFORE/AFTER>> the `transition`.
+				&:checked:not(:focus-within) {
+					background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23#{str-slice(inspect($body-color-transformed), 2)}'/%3e%3c/svg%3e"), var(--bs-gradient);
+				}
+			}
+		}
+	}
+
+
+	// Check/switch/radio's `<label>` <<BEFORE/DURING/AFTER>> the `transition`
+	//
+	// Removes `user-select` in all devices and sets `color`.
+	.form-check-label {
+		// See https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting
+		color: $label-color-default;
+		-webkit-touch-callout: none; // iOS Safari
+		  -webkit-user-select: none; // Safari
+		   -khtml-user-select: none; // Konqueror HTML
+			 -moz-user-select: none; // Old versions of Firefox
+			  -ms-user-select: none; // Internet Explorer/Edge
+				  user-select: none; // Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox
+	}
+
+
+	// Switch's individual style
+	//
+	// Necessary to overlap `.form-check > .form-check-input`.
+
+	.form-switch {
+		// Switch
+		> .form-check-input {
+			// Switch <<DURING>> the `:hover:not(:active)` state.
+			&:hover:not(:active) {
+				cursor: pointer;
+			}
+
+			// Switch <<DURING>> the `:active` state.
+			&:active {
+				border-radius: 25% / 50%;
+			}
+		}
+
+		// `.form-switch` <<DURING>> the `:active` state (necessary to extend style behavior when clicking the `<label>`).
+		&:active {
+			// Switch <<DURING>> the `.form-switch:active` state.
+			> .form-check-input[type="checkbox"] {
+				border-color: $border-focus-color;
+				border-radius: 25% / 50%;
+			}
+		}
+	}
+
+
+	// Range
+	//
+	// Style range inputs the same across browsers. Vendor-specific rules for pseudo-elements
+	// cannot be mixed. As such, there are no shared styles for focus or active states on
+	// prefixed selectors.
+
+	// `.form-range` <<BEFORE/AFTER>> the `:focus` state.
+	.form-range {
+		// & > * {
+		// 	transition: $transition !important;
+		// }
+		// transition: none !important;
+
+		// `.form-range::-webkit-slider-thumb` pseudo-element <<BEFORE/AFTER>> the `:focus` state.
+		&::-webkit-slider-thumb {
+			background: $body-color-default;
+			transition: $transition;
+
+			&:hover:not(:active) {
+				opacity: .5;
+			}
+		}
+
+		// `.form-range::-webkit-slider-runnable-track` pseudo-element <<BEFORE/AFTER>> the `:focus` state.
+		&::-webkit-slider-runnable-track {
+			background: $body-bg-color-default;
+			border-radius: $check-radius-default;
+			transition: $transition;
+		}
+
+		// `.form-range::-moz-range-thumb` pseudo-element <<BEFORE/AFTER>> the `:focus` state.
+		&::-moz-range-thumb {
+			background: $body-color-default;
+			transition: $transition;
+
+			&:hover:not(:active) {
+				opacity: .5;
+			}
+		}
+
+		// `.form-range::-moz-range-track` pseudo-element <<BEFORE/AFTER>> the `:focus` state.
+		&::-moz-range-track {
+			background: $body-bg-color-default;
+			border-radius: $check-radius-default;
+			transition: $transition;
+		}
+
+		// `.form-range` (and its pseudo-elements) <<DURING>> the `:active` state.
+		&:active {
+			// `.form-range::-webkit-slider-runnable-track` pseudo-element <<BEFORE/AFTER>> the `:active` state.
+			&::-webkit-slider-runnable-track {
+				background: $body-bg-color-transformed;
+			}
+
+			// `.form-range::-webkit-slider-thumb` pseudo-element <<BEFORE/AFTER>> the `:active` state.
+			&::-webkit-slider-thumb {
+				// `.form-range::-webkit-slider-thumb` pseudo-element <<DURING>> the `:active` state.
+				@include gradient-bg(tint-color($body-color-transformed, 70%));
+
+				&:hover:not(:active) {
+					opacity: 1;
+				}
+			}
+
+			&::-moz-range-track {
+				background: $body-bg-color-transformed;
+			}
+
+			&::-moz-range-thumb {
+				// `.form-range::-webkit-slider-thumb` pseudo-element <<DURING>> the `:active` state.
+				@include gradient-bg(tint-color($body-color-transformed, 70%));
+
+				&:hover:not(:active) {
+					opacity: 1;
+				}
+			}
+		}
+
+		// `.form-range` (and its pseudo-elements) <<DURING>> the `:focus` state.
+		&:focus {
+			// transition: $transition;
+
+			// Pseudo-elements must be split across multiple rulesets to have an effect.
+			// No box-shadow() mixin for focus accessibility.
+			&::-webkit-slider-thumb { box-shadow: 0 0 0 1px $border-focus-color, 0 0 0 0.25rem rgba($body-color-transformed, 25%); }
+			&::-moz-range-thumb     { box-shadow: 0 0 0 1px $border-focus-color, 0 0 0 0.25rem rgba($body-color-transformed, 25%); }
+		}
+
+		// `.form-range` (and its pseudo-elements) <<AFTER>> the `:focus` state.
+		&:not(:focus) {
+			// transition: $transition;
+
+			// Pseudo-elements must be split across multiple rulesets to have an effect.
+			// No box-shadow() mixin for focus accessibility.
+			&::-webkit-slider-thumb {
+				box-shadow: none; // needed to enable transition
+				// transition: $transition;
+			}
+
+			&::-moz-range-thumb {
+				box-shadow: none; // needed to enable transition
+				// transition: $transition;
+			}
+		}
+	}
+
+
+	// Animations
+	//
+	// See https://stackoverflow.com/questions/40788178/is-it-possible-to-animate-webkit-text-fill-color
+
+	// // `<input>`'s `:-webkit-autofill` and `:autofill` animation <<BEFORE>> the `transition`.
+	// @keyframes autofill_in_primary {
+
+	// 	0%, 100% {
+	// 		-webkit-text-fill-color: $body-color-default; // WebKit specific
+	// 		box-shadow: inset 0 0 0 30px rgba($body-bg-color-default, 1); // WebKit specific
+	// 	}
+
+	// }
+
+	// // `<input>`'s `:-webkit-autofill` and `:autofill` animation <<DURING>> the `:focus` state.
+	// @keyframes autofill_in_secondary {
+
+	// 	0%, 100% {
+	// 		-webkit-text-fill-color: $body-color-transformed; // WebKit specific
+	// 		box-shadow: inset 0 0 0 30px rgba($body-bg-color-transformed, 1); // WebKit specific
+	// 	}
+
+	// }
+
+	// // `<input>`'s animation <<AFTER>> the `transition`.
+	// @keyframes autofill_noPlace_noFocus_primary {
+	// 	0% {
+	// 		color: $body-color-transformed;
+	// 		background-color: $body-bg-color-transformed;
+	// 	}
+
+	// 	100% {
+	// 		color: $body-color-default;
+	// 		background-color: $body-bg-color-default;
+	// 	}
+	// }
+
+	// // `<input>`'s animation <<BEFORE/AFTER>> the `transition`.
+	// @keyframes autofill_out_primary {
+
+	// 	0%, 100% {
+	// 		color: $body-color-default;
+	// 		background-color: $body-bg-color-default;
+	// 	}
+
+	// }
+
+	// // `<input>`'s animation <<DURING>> the `:focus` state.
+	// @keyframes autofill_out_secondary {
+
+	// 	0%, 100% {
+	// 		color: $body-color-transformed;
+	// 		background-color: $body-bg-color-transformed;
+	// 	}
+
+	// }
+
+
+	// Flush accordion items
+	//
+	// Remove borders and border-radius to keep accordion items edge-to-edge.
+
+	.accordion-flush {
+
+		.accordion-button {
+			&:not(.collapsed) {
+				&::after {
+					// See https://stackoverflow.com/a/55002367
+					background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23#{str-slice(inspect($body-color-transformed), 2)}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+				}
+			}
+		}
+
+	}
+}
+
+
+// See https://stackoverflow.com/a/55002367
+// $stripped-color: str-slice(inspect($color_secondary), 2);

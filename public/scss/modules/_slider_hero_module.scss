@@ -1,0 +1,490 @@
+  //
+ // Hero slider module (1)
+//
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for mixins and variables
+// <<<<< Controllers — END
+
+
+// Copy, paste and uncomment the following code into the intended SCSS page to style this module:
+// @extend %slider_hero_module;
+
+%slider_hero_module {
+
+	.slider_hero_module {
+		// slider - no image in
+		.slider_no_img {
+			.slider_no_img_card {
+				height: 400px;
+				background-color: rgba($color_first, 0.1);
+
+				&:hover {
+					background-color: rgba($color_first, 0.2);
+
+					.buy_home_courses {
+						margin-left: 0.5rem;
+						transition: all 0.5s ease-in-out;
+						-webkit-transition: all 0.5s ease-in-out;
+						-moz-transition: all 0.5s ease-in-out;
+						-o-transition: all 0.5s ease-in-out;
+					}
+				}
+
+				.buy_home_courses {
+					background-color: $color_first;
+					margin-left: 0rem;
+					transition: all 0.5s ease-in-out;
+					-webkit-transition: all 0.5s ease-in-out;
+					-moz-transition: all 0.5s ease-in-out;
+					-o-transition: all 0.5s ease-in-out;
+				}
+			}
+
+			.info-sport {
+				position: absolute;
+				bottom: 20px;
+			}
+
+			h4 {
+				border-bottom: 1px solid;
+				font-weight: 700;
+				color: $color_first;
+			}
+
+			p {
+				color: $color_second !important;
+			}
+
+			.icon_course {
+
+			}
+
+			.slickdsi-prev,
+			.slickdsi-next {
+				top: 190px;
+				position:absolute;
+				font-size: 0.9rem;
+				cursor: pointer;
+				line-height: 0.5rem;
+				color: $color_black !important;
+				border: 0;
+				border-radius: 50%;
+				padding: 20px;
+				background-color: rgba($color_first, 0.2);
+				transition: all 0.3s ease-in-out;
+				-webkit-transition: all 0.3s ease-in-out;
+				-moz-transition: all 0.3s ease-in-out;
+				-o-transition: all 0.3s ease-in-out;
+			}
+
+			.slickdsi-prev:hover,
+			.slickdsi-next:hover {
+				background-color: rgba($color_first, 0.6);
+			}
+
+			.slickdsi-prev {
+				left: -17px;
+			}
+
+			.slickdsi-next {
+				right: -3px;
+			}
+
+			.slick-slide {
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+
+			.slider-for {
+				display: none;
+			}
+
+			.nomeproductTestata {
+				color: $color_white;
+			}
+
+			.text_product,
+			.info-sport{
+				color: $color_white;
+			}
+
+			.container_product {
+				// background-color: rgba(0, 51, 102, 0.05);
+				border-radius:20px;
+			}
+		}
+		// slider  no image out
+
+		// slider_img in
+		.slider_img {
+			.container_img_product_slider {
+				height: 200px;
+				width: 100%;
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+				position: relative;
+				// border-radius: 20px 20px 0 0px;
+			}
+
+			.nomeproductTestata {
+				border-bottom: 2px solid;
+			}
+
+			.info_sport {
+				position: absolute;
+				bottom: 20px;
+				right: 20px;
+				border: 2px solid;
+				color: $color_white;
+				font-weight: 600;
+			}
+
+			.slickdsi-prev,
+			.slickdsi-next {
+				top: 83px;
+				position:absolute;
+				font-size: 0.9rem;
+				cursor: pointer;
+				line-height: 0.5rem;
+				color: $color_white !important;
+				border: 0;
+				border-radius: 50%;
+				padding: 20px;
+				background-color: rgba($color_first, 0.2);
+				// opacity: 0.4;
+				transition: all 0.3s ease-in-out;
+				-webkit-transition: all 0.3s ease-in-out;
+				-moz-transition: all 0.3s ease-in-out;
+				-o-transition: all 0.3s ease-in-out;
+
+				&:hover {
+					color: $color_white !important;
+					background-color: rgba($color_first, 0.6);
+				}
+			}
+
+			.slickdsi-prev {
+				left: -17px;
+			}
+
+			.slickdsi-next {
+				right: -3px;
+			}
+
+			.slider-for {
+				display: none;
+			}
+
+			.text_product,
+			.info-sport {
+				color: $color_white;
+			}
+
+			.container_product {
+				// background-color: rgba(0, 51, 102, 0.05);
+				border-radius:20px;
+			}
+
+			.complessi_type {
+				font-weight: 600;
+				color: $color_first;
+			}
+
+			.caratteristiche {
+				color: $color_third;
+			}
+		}
+		// slider_img out
+
+		// slider img 2 in
+		.slider_img_2 {
+			.container_img_product_slider {
+				height: 200px;
+				width: 100%;
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+				position: relative;
+				// border-radius: 20px 20px 0 0px;
+			}
+
+			.nomeproductTestata {
+				border-bottom: 2px solid;
+			}
+
+			.info_sport {
+				position: absolute;
+				bottom: 20px;
+				right: 20px;
+				border: 2px solid;
+				color: $color_white;
+				font-weight: 600;
+			}
+
+			.slickdsi-prev,
+			.slickdsi-next {
+				top: 83px;
+				position:absolute;
+				font-size: 0.9rem;
+				cursor: pointer;
+				line-height: 0.5rem;
+				color: $color_white !important;
+				border: 0;
+				border-radius: 50%;
+				padding: 20px;
+				background-color: rgba($color_first, 0.2);
+				// opacity: 0.4;
+				transition: all 0.3s ease-in-out;
+				-webkit-transition: all 0.3s ease-in-out;
+				-moz-transition: all 0.3s ease-in-out;
+				-o-transition: all 0.3s ease-in-out;
+
+				&:hover {
+					color: $color_white !important;
+					background-color: rgba($color_first, 0.6);
+				}
+			}
+
+			.slickdsi-prev {
+				left: -17px;
+			}
+
+			.slickdsi-next {
+				right: -3px;
+			}
+
+			.slider-for {
+				display: none;
+			}
+
+			.text_product,
+			.info-sport {
+				color: $color_white;
+			}
+
+			.container_product {
+				// background-color: rgba(0, 51, 102, 0.05);
+				border-radius:20px;
+			}
+
+			.complessi_type {
+				font-weight: 600;
+				color: $color_first;
+			}
+
+			.caratteristiche {
+				color: $color_third;
+			}
+		}
+		// slider img 2 out
+	}
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////////
+////////////////
+			  ////////////////////////
+			 /* @media (max-width) */
+			////////////////////////
+
+			@media (max-width: 1399.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 1199.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 991.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 767.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 575.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+				// -------------- //
+
+			  ////////////////////
+			 /* @media between */
+			////////////////////
+
+			@media (min-width: 576px) and (max-width: 767.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 576px) and (max-width: 991.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) and (max-width: 991.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 992px) and (max-width: 1199.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+				// ------------------ //
+
+			  ////////////////////////
+			 /* @media (min-width) */
+			////////////////////////
+
+			@media (min-width: 576px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 992px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1400px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+				// ---------------- //
+
+			  //////////////////////
+			 /* mobile landscape */
+			//////////////////////
+
+			@media (max-height: 400px) and (orientation: landscape) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+
+				// ----------------- //
+
+			  ///////////////////////
+			 /* iPad Pro portrait */
+			///////////////////////
+
+			@media (width: 1024px) and (height: 1366px) {
+
+				.slider_hero_module {
+
+
+
+				}
+
+			}
+  //  }
+
+}

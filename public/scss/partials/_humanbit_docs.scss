@@ -1,0 +1,315 @@
+  //
+ // Documentation page
+//
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for mixins and variables
+@use "../controllers/extends" as *; // controller for modules
+// <<<<< Controllers — END
+
+
+.humanbit_docs {
+
+
+	@extend %calendar_module;
+	@extend %calendar_2_module;
+	@extend %card_horiz_module;
+	@extend %card_vert_module;
+	@extend %card_vert_2_module;
+	@extend %hero_html5_module;
+	@extend %hero_html5_2_module;
+	@extend %html_text_editor_1_module;
+	@extend %modal_credits_module;
+	@extend %slider_hero_module;
+	@extend %slider_hero_2_module;
+	@extend %slider_hero_3_module;
+	@extend %slider_imgs_in_card_module;
+	@extend %slider_selection_module;
+	@extend %txt_img_row_module;
+	@extend %txt_img_row_2_module;
+	@extend %txt_img_row_vert_module;
+
+	.modal_slider_image {
+		margin-top: 6rem;
+		background-color: rgba(25, 41, 70, 1);
+
+		.modal_event_title {
+			font-weight: 500;
+		}
+
+		.modal-content {
+			background-color: $color_second;
+		}
+
+		.container_img_product_slider {
+			height: 500px;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+
+		button {
+			padding-right: 0;
+			font-size: 1.3rem;
+			color: white;
+			background-color: $color_second;
+			border: 0;
+			opacity: 0.7;
+
+			&[aria-label="next"] {
+				color: transparent;
+			}
+		}
+
+		.modal-header,
+		.modal-footer,
+		.modal_title_container {
+			background-color: $color_second;
+			color: $color_white;
+			border: 0;
+			opacity: 0.7;
+		}
+
+		.slick-prev,
+		.slick-next {
+			width: 30px;
+			height: 30px;
+			background-color: rgba(255, 255, 255, 0.7);
+			opacity: 0.5;
+			z-index: 10;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+
+		.slick-prev {
+			left: 0;
+
+			&::before {
+				content: "<";
+				font-family: "Poppins", sans-serif;
+				font-size: 1.3rem;
+				line-height: 1.4;
+				color: $color_first;
+			}
+		}
+
+		.slick-next {
+			right: 0;
+
+			&::before {
+				content: ">";
+				font-family: "Poppins", sans-serif;
+				font-size: 1.3rem;
+				line-height: 1.4;
+				color: $color_first;
+			}
+		}
+	}
+}
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////
+////////////
+		  ////////////////////////
+		 /* @media (max-width) */
+		////////////////////////
+
+		@media (max-width: 1399.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 1199.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 991.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 767.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 575.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+			// -------------- //
+
+		  ////////////////////
+		 /* @media between */
+		////////////////////
+
+		@media (min-width: 576px) and (max-width: 767.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 576px) and (max-width: 991.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 768px) and (max-width: 991.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 992px) and (max-width: 1199.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+			// ------------------ //
+
+		  ////////////////////////
+		 /* @media (min-width) */
+		////////////////////////
+
+		@media (min-width: 576px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 768px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 992px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1200px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1400px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+			// ---------------- //
+
+		  //////////////////////
+		 /* mobile landscape */
+		//////////////////////
+
+		@media (max-height: 400px) and (orientation: landscape) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+
+			// ----------------- //
+
+		  ///////////////////////
+		 /* iPad Pro portrait */
+		///////////////////////
+
+		@media (width: 1024px) and (height: 1366px) {
+
+			.humanbit_docs {
+
+
+
+			}
+
+		}
+ // }

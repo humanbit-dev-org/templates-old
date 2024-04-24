@@ -1,0 +1,883 @@
+  //
+ // Map page
+//
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for mixins and variables
+@use "../controllers/extends" as *; // controller for modules
+// <<<<< Controllers — END
+
+
+.map_partial {
+	// @extend %example_module;
+	// @extend %example_module;
+	// @extend %example_module;
+	// @extend %example_module;
+	// @extend %example_module;
+
+	#search_div {
+		position: fixed;
+		// top: calc(100vh - 12.5rem);
+		right: 9rem;
+		bottom: 28px;
+		width: 700px;
+		min-height: 50px;
+		font-weight: 400;
+		text-align: center;
+		background-color: rgba($color_first, 1);
+		border-radius: 20px;
+		// opacity: 0;
+		z-index: 999;
+
+		h3 {
+			border-bottom: 2px solid $color_second;
+			width: fit-content;
+		}
+	}
+
+	.help_map_content {
+		position: fixed;
+		// top: calc(100vh - 12.5rem);
+		right: 9rem;
+		bottom: 13rem;
+		width: 700px;
+		min-height: 50px;
+		font-weight: 400;
+		text-align: center;
+		background-color: rgba($color_first, 0.9);
+		border-radius: 20px;
+		// opacity: 0;
+		z-index: 999;
+
+		h3 {
+			border-bottom: 2px solid $color_second;
+			width: fit-content;
+		}
+
+		.fa-xmark:hover {
+			opacity: 0.6;
+			cursor: pointer;
+		}
+
+		i {
+			width: 38px;
+		}
+
+		.select_address {
+			background-image: url("../images/icons/location-pin.png");
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		.select_zone {
+			background-image: url("../images/icons/group-15.png");
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		.drow_zone {
+			background-image: url("../images/icons/fancy-pen.png");
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		.map_bin {
+			// background-image: url("../images/icons/bin_white.svg");
+			// background-position: -492px -22px;
+			// background-repeat: no-repeat;
+			background-image: url("../images/icons/trash-can-solid_aw_white.svg");
+			background-size: 47%;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+	}
+
+	.help_map_container {
+		position: relative;
+
+		.circle_1 {
+			display: flex !important;
+			justify-content: center;
+			align-items: center;
+			width: 38px !important;
+			height: 38px;
+			line-height: 1;
+			background-color: transparent;
+			border: 2px solid $color_second;
+			border-radius: 50%;
+
+			&:hover {
+				background-color: $color_second;
+				cursor: pointer;
+
+			}
+		}
+
+		// .circle_1:hover + .help_map_content {
+		// 	opacity: 1;
+		// 	-webkit-transition: opacity 0.5s ease-in-out;
+		// 	-moz-transition: opacity 0.5s ease-in-out;
+		// 	-o-transition: opacity 0.5s ease-in-out;
+		// 	transition: opacity 0.5s ease-in-out;
+		// }
+
+		i {
+			font-weight: 600;
+			color: $color_white;
+		}
+	}
+
+	// map costumization
+	img.leaflet-marker-icon {
+		margin-top: -56px !important;
+	}
+
+	.leaflet-edit-resize {
+		position: relative;
+		width: 27px !important;
+		height: 27px !important;
+		background-image: url("../images/icons/expand-light.svg");
+		background-size: 35%;
+		background-position: center;
+		background-repeat: no-repeat;
+
+		&:hover {
+			background-color: $color_second !important;
+			cursor: col-resize;
+
+			.hover_resize {
+				display: block!important;
+				opacity: 1 !important;
+				transition: opacity 2s ease-in-out;
+			}
+		}
+	}
+
+	.hover_resize {
+		display: none!important;
+		position: absolute;
+		top: -29px;
+		left: 11px;
+		width: max-content;
+		height: auto;
+		padding: 0.3rem 0.5rem 0.3rem 0.8rem;
+		font-weight: 500;
+		background-color: rgba($color_first, 0.8);
+		border-radius: 4px;
+		opacity: 0 !important;
+		transition: opacity 2s ease-in-out;
+	}
+
+	.leaflet-edit-move {
+		width: 27px !important;
+		height: 27px !important;
+		background-image: url("../images/icons/arrows-maximize-light.svg");
+		background-size: 35%;
+		background-position: center;
+		background-repeat: no-repeat;
+		position: relative;
+
+		&:hover {
+			background-color: $color_second !important;
+
+			.hover_move {
+				display: block !important;
+				opacity: 1 !important;
+				transition: opacity 2s ease-in-out;
+			}
+		}
+	}
+
+	.hover_move {
+		position: absolute;
+		left: 11px;
+		top: -29px;
+		display: none!important;
+		width: max-content;
+		height: auto;
+		padding: 0.3rem 0.5rem 0.3rem 0.8rem;
+		font-weight: 500;
+		background-color: rgba($color_first, 0.8);
+		border-radius: 4px;
+		opacity: 0 !important;
+		transition: opacity 2s ease-in-out;
+	}
+
+	.map_bin {
+		// background-image: url("../images/icons/bin_white.svg");
+		background-image: url("../images/icons/trash-can-solid_aw_white.svg");
+		background-size: 37%;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	.delete {
+		bottom: 10rem;
+	}
+
+	.openstreetmap_wrapper .map_tools_selected {
+		background-color: $color_second !important;
+		border-color: $color_second !important;
+	}
+
+	input.leaflet-control:nth-of-type(1):focus {
+		background-color: $color_second !important;
+		border-color: $color_second !important;
+	}
+
+	input.leaflet-control:nth-of-type(2):focus {
+		background-color: $color_second !important;
+		border-color: $color_second !important;
+	}
+
+	.leaflet-draw-toolbar.leaflet-draw-toolbar-top a:nth-of-type(1):focus {
+		background-color: $color_second !important;
+		border-color: $color_second !important;
+	}
+
+	.leaflet-left .leaflet-control:not(.leaflet-draw):not(.leaflet-control-zoom):hover {
+		background-color: $color_second !important;
+		opacity: 1;
+	}
+
+	.leaflet-touch .leaflet-bar a:hover {
+		background-color: $color_second !important;
+		opacity: 1;
+	}
+
+	.leaflet-marker-icon {
+		border-radius: 50%;
+		background-color: #17A7C7 !important;
+		border: 1px solid $color_white;
+	}
+
+	.leaflet-draw-section:last-child {
+		margin-bottom: 10rem;
+	}
+
+	.leaflet-draw-toolbar {
+
+		.leaflet-bar {
+			position: absolute;
+			top: 17rem;
+		}
+
+	}
+
+	.leaflet-draw-draw-polygon.map_tools_selected {
+		background-color: $color_second !important;
+		border-color: $color_second !important;
+	}
+
+	.leaflet-control-zoom {
+		position: absolute !important;
+		right: 0px !important;
+		bottom: 2px;
+		// margin-bottom: 2rem
+		z-index: 999;
+
+		a span {
+			vertical-align: -webkit-baseline-middle;
+		}
+	}
+
+	.leaflet-touch .leaflet-bar a {
+		width: 48px;
+		height: 48px;
+		color: $color_white;
+		// background-color: #17A7C7 !important;
+		// border: 2px solid $color_first;
+		border-radius: 50%;
+	}
+
+	.leaflet-touch .leaflet-bar a.leaflet-control-zoom-in,
+	.leaflet-touch .leaflet-bar a.leaflet-control-zoom-out {
+		color: $color_first;
+		background-color: white !important;
+		// border: 2px solid $color_first;
+		border-radius: 50%;
+
+		&:hover {
+			background-color: $color_third !important;
+			color: $color_white;
+		}
+	}
+
+	.leaflet-touch .leaflet-bar a:first-child {
+		border-top-left-radius: 50%;
+		border-top-right-radius: 50%;
+	}
+
+	.leaflet-touch .leaflet-bar a:last-child {
+		border-bottom-left-radius: 50%;
+		border-bottom-right-radius: 50%;
+	}
+
+	.leaflet-zoom-animated {
+		.zone:not(.zone_click) {
+			opacity: 0.5;
+			transition: all 0.5s ease-in-out;
+		}
+
+		.zone:hover {
+			opacity: 1;
+			cursor: pointer;
+			transition: all 0.5s ease-in-out;
+		}
+
+		.zone_click {
+			opacity: 1;
+		}
+	}
+	// map customization out
+
+	.next_button_container .btn_bg_third {
+		width: 100% !important;
+	}
+
+	h1,
+	.h1 {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1.8rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1.8rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+		font-weight: 300;
+		word-break: break-word;
+	}
+
+	h2,
+	.h2 {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1.54rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1.54rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+		word-break: break-word;
+	}
+
+	h3,
+	.h3 {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1.15rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1.15rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+		font-weight: 500;
+		word-break: break-word;
+	}
+
+	h4,
+	.h4 {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1.15rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1.15rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+		font-weight: 500;
+		word-break: break-word;
+	}
+
+	h5,
+	.h5 {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1.25rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1.25rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+		font-weight: 400;
+		word-break: break-word;
+	}
+
+	h6,
+	.h6 {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+		word-break: break-word;
+	}
+
+	p,
+	.p {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+		font-weight: 400;
+		word-break: break-word;
+	}
+
+	.big {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1.8rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1.8rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+		font-weight: 300;
+	}
+
+	.medium {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1.2rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1.2rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+		font-weight: 200;
+	}
+
+	small,
+	.small {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 0.8rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 0.8rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.4;
+		font-weight: 200;
+		word-break: break-word;
+	}
+
+	select,
+	select.form-select,
+	input:not([type="checkbox"]):not([type="radio"]),
+	.input {
+		@include fluid_type( // responsive typography
+			// >>>>> VIEWPORT <<<<<
+			// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+			// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+			// >>>>> MOBILE <<<<<
+			$font-size-min: 1.13rem, // `font-size` on mobile viewport (< 575.98px)
+			$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+			// >>>>> DESKTOP <<<<<
+			$font-size-max: 1.13rem, // `font-size` on desktop viewport (> 576px)
+			$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+			// >>>>> IMPORTANT <<<<<
+			// $important: "!important" // uncomment to add the `!important` flag
+		);
+		// line-height: 1.3;
+	}
+
+	input {
+		&[type="checkbox"],
+		&[type="radio"] {
+			font-size: inherit;
+			line-height: inherit;
+		}
+	}
+
+	.form-control {
+		&:focus {
+			color: $color_white;
+			background-color: $color_fourth;
+		}
+	}
+
+	.map_accordion {
+		.accordion-button {
+			&:hover {
+				opacity: .8;
+			}
+
+			&::after {
+				width: 2.5rem;
+				height: 2.5rem;
+				background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='%23FFF' fill='%23FFF'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+				background-size: 1.25rem;
+				background-position: center;
+				border: 2px solid $color_white;
+				border-radius: 50rem;
+			}
+
+			&:not(.collapsed) {
+				color: $color_second;
+				background-color: $color_first;
+
+				&::after {
+					background-color: $color_second;
+					border-color: $color_second;
+					transition: .13s ease-in-out;
+				}
+			}
+		}
+
+		.form-check {
+			&:hover {
+				opacity: .8;
+
+				> * {
+					color: $color_second;
+				}
+			}
+		}
+	}
+
+	input#search_button::placeholder {
+		color: rgba($color_white, .75);
+	}
+
+	.btn_back {
+		bottom: 4.68rem;
+	}
+
+	.pages_dots a {
+		background-color: transparent;
+	}
+
+	.container_ghost {
+		height: 6rem;
+		z-index: 1;
+	}
+}
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////
+////////////
+		  ////////////////////////
+		 /* @media (max-width) */
+		////////////////////////
+
+		@media (max-width: 1399.98px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 1199.98px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 991.98px) {
+
+			.map_partial {
+				.map {
+
+					.openstreetmap_iframe {
+						height: calc(100vh - 6rem) !important;
+					}
+
+				}
+
+				.openstreetmap_iframe {
+					position: relative !important;
+					height: calc(100vh - 6rem) !important;
+				}
+
+				.leaflet-bottom {
+					display: none !important;
+				}
+
+				.leaflet-left {
+					right: calc(0vw + 0.5rem);
+				}
+
+				#search_div {
+					right: 3px;
+					bottom: 107px;
+					width: 367px;
+					z-index: 999;
+				}
+
+				.help_map_content {
+					top: 8rem;
+					bottom: auto;
+					left: 2%;
+					width: 96%;
+					margin-right: auto;
+					margin-left: auto;
+					font-weight: 400;
+					background-color: rgba($color_third, 1);
+					border: 1px solid white;
+
+					h3 {
+						width: 87%;
+					}
+
+					.fa-xmark {
+						padding-right: 2%;
+					}
+				}
+			}
+
+		}
+
+		@media (max-width: 767.98px) {
+
+			.map_partial {
+
+				.container_ghost {
+					height: 5rem;
+				}
+
+			}
+
+		}
+
+		@media (max-width: 575.98px) {
+
+			.map_partial {
+
+				.help_map_container {
+
+					.help_map_content {
+						top: 35px;
+						right: 0;
+						left: 0;
+						width:  100%;
+					}
+
+				}
+
+			}
+
+		}
+
+			// -------------- //
+
+		  ////////////////////
+		 /* @media between */
+		////////////////////
+
+		@media (min-width: 576px) and (max-width: 767.98px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 576px) and (max-width: 991.98px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 768px) and (max-width: 991.98px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 992px) and (max-width: 1199.98px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+			// ------------------ //
+
+		  ////////////////////////
+		 /* @media (min-width) */
+		////////////////////////
+
+		@media (min-width: 576px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 768px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 992px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1200px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1400px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+			// ---------------- //
+
+		  //////////////////////
+		 /* mobile landscape */
+		//////////////////////
+
+		@media (max-height: 400px) and (orientation: landscape) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+
+			// ----------------- //
+
+		  ///////////////////////
+		 /* iPad Pro portrait */
+		///////////////////////
+
+		@media (width: 1024px) and (height: 1366px) {
+
+			.map_partial {
+
+
+
+			}
+
+		}
+ // }

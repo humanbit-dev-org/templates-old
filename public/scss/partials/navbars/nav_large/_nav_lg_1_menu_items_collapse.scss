@@ -1,0 +1,583 @@
+  //
+ // Navbar partial
+//
+
+// >>> Controllers — START
+@use "../../../controllers/dynamics" as *; // controllers for mixins and variables
+// <<<<< Controllers — END
+
+
+// >>> Navbar — START
+.nav_partial {
+	nav {
+		min-height: 5rem;
+		background-color: $color_sixth;
+	}
+
+	nav ul li {
+		font-family: 'Oswald', sans-serif;
+		font-size: 1.134rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		color: $color_black;
+	}
+
+	.header_menu_items {
+		height: 8rem;
+	}
+
+
+	.nav_right span {
+		font-size: 0.85rem;
+	}
+
+	.menu_items .nav-link {
+		font-size: 2.3rem;
+		font-weight: 500;
+		color: $color_white;
+	}
+
+	.menu_items .nav-link.res_area {
+		font-size: 1rem;
+		font-weight: 200;
+	}
+
+	.menu_items .nav-item {
+		position: relative;
+		color: $color_white;
+	}
+
+	.menu_items .nav-link span {
+		font-family: 'Roboto Condensed', sans-serif;
+		font-size: 1rem;
+		font-weight: 300;
+	}
+
+	.menu_items .nav-link.active_link span {
+		font-family: 'Roboto Condensed', sans-serif;
+		font-weight: 400;
+	}
+
+	.nav-link.active_link {
+		padding-right: 1rem;
+		padding-left: 1rem;
+		color: $color_first;
+		background-color: $color_white;
+		opacity: 1;
+	}
+
+	.navbar .navbar-toggler {
+		border: 0px;
+	}
+
+	.navbar-light .navbar-toggler i {
+		width: fit-content;
+		color: white;
+	}
+
+	.navbar-light .navbar-toggler i:hover {
+		width: fit-content;
+		color: white;
+		opacity: 0.7;
+		cursor: pointer;
+	}
+
+	.navbar-light .navbar-toggler:focus {
+		box-shadow: 0 0 0 0rem;
+	}
+
+	.navbar-light .navbar-toggler span:hover {
+		cursor: pointer;
+	}
+
+	.border_bottom_humanbit {
+		border-bottom: 1px solid white;
+	}
+
+	.navbar-light .navbar-nav .nav-link:hover,
+	.navbar-light .navbar-nav .nav-link:focus {
+		color: $color_first;
+		padding-right: 1rem;
+		padding-left: 1rem;
+		background-color: $color_white;
+		opacity: 1;
+	}
+
+	.active_link_normale {
+		color: $color_first !important;
+		background-color: $color_white;
+	}
+
+	.active_link_normale {
+		color: $color_first !important;
+	}
+
+	.logo_header_link {
+		z-index: 100;
+	}
+
+	.logo_header_container {
+		max-width: 250px;
+		max-height: 7rem;
+	}
+
+	.logo_header_container_mobile{
+		width: 100px;
+	}
+
+	.logo_header {
+		max-width: 100%;
+		max-height: 6rem;
+	}
+
+	.res_area_link,
+	.nav_link {
+		width: fit-content;
+	}
+
+	.landmark a {
+		padding-left: 0.2rem;
+		padding-right: 0.2rem;
+
+		&:hover {
+			opacity: 1;
+			background-color: $color_first;
+			color: $color_white !important;
+		}
+	}
+}
+// <<<<< Navbar — END
+
+// >>> Navbar collapse — START
+.nav_menu_collapse {
+	.collapse_menu {
+		width: 100vw;
+		background-color: $color_fourth;
+		z-index: 100;
+	}
+
+	#collapse_impianti h3 i {
+		padding-left: 0;
+		transition: all 0.5s ease-in-out;
+	}
+
+	#collapse_impianti a:hover {
+		background-color: $color_first;
+		opacity: 1;
+
+		i {
+			padding-left: 1rem;
+			color: $color_white;
+			transition: all 0.5s ease-in-out;
+		}
+
+		h3 {
+			color: $color_white;
+		}
+	}
+
+	#collapse_sport.collapse_menu {
+		background-color: $color_fourth;
+	}
+
+	#collapse_sport.collapsing {
+		transition: height 0.65s ease;
+	}
+
+	.link_icon_sport_menu:hover {
+		opacity: 1;
+	}
+
+	.sport_list_menu:hover .link_title_sport_menu {
+		opacity: 0.75;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.sport_list_menu .link_title_sport_menu {
+		opacity: 1;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.sport_list_menu:hover figure.icon_title_container {
+		margin-left: 5% !important;
+		opacity: 1;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.sport_list_menu figure.icon_title_container {
+		margin-left: auto;
+		opacity: 1;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.impianti_all {
+		background-color: $color_second;
+		width: 100%;
+	}
+
+	#collapse_buy .impianti_list h3 {
+		border-top: 0;
+	}
+
+	#collapse_buy i::before {
+		vertical-align: baseline;
+		font-weight: 400;
+	}
+
+	#collapse_buy h3 i {
+		position: absolute;
+		top: 30px;
+		left: 32%;
+		transition: all 0.5s ease-in-out;
+	}
+
+	#collapse_buy li a:hover {
+		background-color: $color_first !important;
+		opacity: 1;
+		cursor: pointer;
+
+		h3 {
+			color: $color_white !important;
+			background-color: $color_first !important;
+			opacity: 1;
+		}
+
+		i {
+			position: absolute;
+			left: 34%;
+			color: $color_white !important;
+			transition: all 0.5s ease-in-out;
+		}
+
+	}
+
+	#collapse_buy h3 {
+		position: relative;
+		border-bottom: 2px solid $color_fourth;
+	}
+
+	.impianti_all i {
+		font-size: 1.5rem;
+		font-weight: 500;
+	}
+
+	.impianti_list h3 {
+		border-top: 1px solid;
+		border-bottom: 1px solid;
+	}
+
+	.pool_list {
+		color: white;
+	}
+
+	.collapse_menu li a {
+		color: white;
+	}
+}
+// <<<<< Navbar collapse — END
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////
+////////////
+		  ////////////////////////
+		 /* @media (max-width) */
+		////////////////////////
+
+		@media (max-width: 1399.98px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+		@media (max-width: 1199.98px) {
+
+			.nav_partial {
+
+				nav ul li {
+					font-size: 1.01rem;
+				}
+
+			}
+
+		}
+
+		@media (max-width: 991.98px) {
+
+			.nav_partial {
+				nav {
+					background-color: $color_white;
+				}
+
+				.nav-link.active_link::after {
+					display: none;
+				}
+
+				.navbar_full {
+					height: 8.5rem;
+				}
+
+				.nav-link.active_link {
+					font-weight: 700;
+					text-decoration: underline;
+					text-decoration-thickness: 1px;
+					text-underline-offset: 6px;
+				}
+
+				.dropdown-item:hover {
+					color: rgba(255, 255, 255, 0.8);
+					background-color: rgba(152, 5, 57, 0.9);
+					cursor: pointer;
+				}
+
+				.menu_humanbit {
+					padding-top: 30px !important;
+				}
+
+				.menu_4_mobile .nav-link span {
+					font-size: 0.8rem;
+				}
+
+				.nav-link.active_link::after {
+					right: 7px;
+				}
+
+				.menu_4_mobile ul {
+					width: fit-content;
+				}
+
+				.menu_items .nav-link span {
+					font-size: 0.8rem;
+				}
+
+				.logo_header_container_mobile {
+					width: 130px;
+				}
+
+				.menu_items li {
+					padding-bottom: 1rem;
+					text-align: center;
+
+					span {
+						display: none;
+					}
+				}
+
+				.menu_items_internal {
+					background-color: rgba(242, 242, 242, 1);
+					opacity: 0.9;
+				}
+
+				.menu-items_container {
+					height: 100%;
+					min-height: 5rem;
+				}
+
+				.logo_header_container_mobile {
+					padding-top: 1.5rem !important
+				}
+
+				button.navbar-toggler {
+					padding-top: 2.2rem !important;
+				}
+			}
+
+		}
+
+		@media (max-width: 767.98px) {
+
+			.nav_menu_collapse {
+
+				#collapse_buy i {
+					position: absolute;
+					left: 90%;
+				}
+
+			}
+
+			.nav_partial {
+
+				nav {
+					min-height: 5rem;
+				}
+
+			}
+
+		}
+
+		@media (max-width: 575.98px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+			// -------------- //
+
+		  ////////////////////
+		 /* @media between */
+		////////////////////
+
+		@media (min-width: 576px) and (max-width: 767.98px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 576px) and (max-width: 991.98px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 768px) and (max-width: 991.98px) {
+
+			.nav_partial {
+
+				.navbar_full {
+					height: 8.5rem;
+				}
+
+			}
+
+		}
+
+		@media (min-width: 992px) and (max-width: 1199.98px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+			// ------------------ //
+
+		  ////////////////////////
+		 /* @media (min-width) */
+		////////////////////////
+
+		@media (min-width: 576px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 768px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 992px) {
+
+			.nav_partial {
+				.navbar-expand-lg .navbar_collapse_humanbit {
+					display: -ms-flexbox !important;
+					display: flex !important;
+					-ms-flex-preferred-size: auto;
+					flex-basis: auto;
+				}
+
+				.navbar-expand-lg .navbar-nav .nav-link {
+					padding-left: 0;
+					padding-right: 1rem;
+				}
+
+				.dropdown_menu_humanbit {
+					background-color: $color_second;
+					opacity: 1;
+				}
+			}
+
+		}
+
+		@media (min-width: 1200px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+		@media (min-width: 1400px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+			// ---------------- //
+
+		  //////////////////////
+		 /* mobile landscape */
+		//////////////////////
+
+		@media (max-height: 400px) and (orientation: landscape) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+
+			// ----------------- //
+
+		  ///////////////////////
+		 /* iPad Pro portrait */
+		///////////////////////
+
+		@media (width: 1024px) and (height: 1366px) {
+
+			.nav_partial {
+
+
+
+			}
+
+		}
+ // }

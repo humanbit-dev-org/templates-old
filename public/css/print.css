@@ -1,0 +1,132 @@
+@media print {
+  .d-print-inline {
+    display: inline !important;
+  }
+
+  .d-print-inline-block {
+    display: inline-block !important;
+  }
+
+  .d-print-block {
+    display: block !important;
+  }
+
+  .d-print-grid {
+    display: grid !important;
+  }
+
+  .d-print-table {
+    display: table !important;
+  }
+
+  .d-print-table-row {
+    display: table-row !important;
+  }
+
+  .d-print-table-cell {
+    display: table-cell !important;
+  }
+
+  .d-print-flex {
+    display: flex !important;
+  }
+
+  .d-print-inline-flex {
+    display: inline-flex !important;
+  }
+
+  .d-print-none {
+    display: none !important;
+  }
+}
+/* `<input>`s must contain a placeholder property set (even if left empty [""]) for the proper animation cycle to happen. */
+:root {
+  --nav_bg_color_primary: #0e4c94;
+  --nav_bg_color_secondary: #192946;
+}
+
+:root {
+  --coll_ghost_width: 40rem;
+  --nav_bg_color_top: linear-gradient(to top, var(--nav_bg_color_primary) 34%, var(--nav_bg_color_secondary) 65%) bottom;
+  --nav_bg_color_right: linear-gradient(to right, var(--nav_bg_color_primary) 34%, var(--nav_bg_color_secondary) 65%) left;
+  --nav_bg_color_bottom: linear-gradient(to bottom, var(--nav_bg_color_primary) 34%, var(--nav_bg_color_secondary) 65%) top;
+  --nav_bg_color_left: linear-gradient(to left, var(--nav_bg_color_primary) 34%, var(--nav_bg_color_secondary) 65%) right;
+  --nav_bg_position_top: top;
+  --nav_bg_position_right: right;
+  --nav_bg_position_bottom: bottom;
+  --nav_bg_position_left: left;
+}
+@media (max-width: 767.98px) {
+  :root {
+    --coll_ghost_width: 100vw;
+  }
+}
+
+@media (max-width: 991.98px) {
+  div.cont_img {
+    height: 390px;
+  }
+}
+@-webkit-keyframes jump {
+  0% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+  40% {
+    transform: translate3d(0, 10%, 0) scale3d(1, 1.1, 1);
+  }
+  100% {
+    transform: translate3d(0, 11%, 0) scale3d(1.05, 0.9, 1);
+  }
+}
+@-ms-keyframes jump {
+  0% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+  40% {
+    transform: translate3d(0, 10%, 0) scale3d(1, 1.1, 1);
+  }
+  100% {
+    transform: translate3d(0, 11%, 0) scale3d(1.05, 0.9, 1);
+  }
+}
+@keyframes jump {
+  0% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+  40% {
+    transform: translate3d(0, 10%, 0) scale3d(1, 1.1, 1);
+  }
+  100% {
+    transform: translate3d(0, 11%, 0) scale3d(1.05, 0.9, 1);
+  }
+}
+div.cont_img {
+  width: 100%;
+  height: 524px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center top;
+  z-index: -1;
+}
+
+@media (max-width: 991.98px) {
+  div.cont_img {
+    height: 390px;
+  }
+}
+@media print {
+  .print_partial .row {
+    color: blue;
+  }
+  .print_partial .row .test {
+    background-color: red;
+  }
+}
+/*/==================== @media ====================/*/
+/* @media (max-width) */
+/* @media between */
+/* @media (min-width) */
+/* mobile landscape */
+/* iPad Pro portrait */
+
+/*# sourceMappingURL=print.css.map */

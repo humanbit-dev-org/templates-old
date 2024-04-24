@@ -1,0 +1,391 @@
+  //
+ // Columns module with alternating text and image
+//
+
+// >>> Controllers — START
+@use "../controllers/dynamics" as *; // controllers for mixins and variables
+// <<<<< Controllers — END
+
+
+// Copy, paste and uncomment the following code into the intended SCSS page to style this module:
+// @extend %txt_img_row_vert_module;
+
+%txt_img_row_vert_module {
+
+	.txt_img_row_vert_module {
+		.author_name {
+			@include fluid_type( // responsive typography
+				// >>>>> VIEWPORT <<<<<
+				// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+				// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+				// >>>>> MOBILE <<<<<
+				$font-size-min: 1.35rem, // `font-size` on mobile viewport (< 575.98px)
+				$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+				// >>>>> DESKTOP <<<<<
+				$font-size-max: 1.35rem, // `font-size` on desktop viewport (> 576px)
+				$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+				// >>>>> IMPORTANT <<<<<
+				// $important: "!important" // uncomment to add the `!important` flag
+			);
+			// line-height: 1.6;
+			word-break: break-word;
+		}
+
+		.space_home_row:hover {
+			~ .img-hover-zoom img {
+				transform: scale(1.1) !important;
+				overflow: hidden !important;
+			}
+		}
+
+		.space_home_row {
+			position: relative;
+
+			* {
+				transition: all 0.3s ease-in-out;
+			}
+
+			.h4 {
+
+			}
+
+			figure {
+				overflow: visible !important;
+			}
+
+			h3 {
+				color: $color_black;
+				transition: all 0.4s ease-in-out;
+			}
+
+			&:hover {
+				* {
+					transition: all 0.4s ease-in-out;
+				}
+
+				h3,
+				i.icon_link,
+				.span_link {
+					color: $color_second;
+				}
+
+				i.icon_link {
+					font-weight: 300 !important;
+				}
+
+				.span_link {
+					font-weight: 500 !important;
+				}
+
+				figure {
+					opacity: 1;
+				}
+
+				p,
+				h5 {
+					opacity: 0.6;
+				}
+
+				.line_black {
+					border-color: $color_second;
+				}
+
+				.span_link {
+					padding-right: 1.5rem !important;
+				}
+
+				.figure_absolute {
+					transform-origin: 50% 50%;
+					// animation: wiggle 0.6s;
+					animation: jump 0.73s linear alternate 6;
+					// animation-iteration-count: 2;
+				}
+
+				@-webkit-keyframes jump {
+					0%   { transform: translate3d(0,0,0) scale3d(1,1,1); }
+					40%  { transform: translate3d(0,10%,0) scale3d(1,1.1,1); }
+					100% { transform: translate3d(0,11%,0) scale3d(1.05,.9,1); }
+				}
+
+				@-ms-keyframes jump {
+					0%   { transform: translate3d(0,0,0) scale3d(1,1,1); }
+					40%  { transform: translate3d(0,10%,0) scale3d(1,1.1,1); }
+					100% { transform: translate3d(0,11%,0) scale3d(1.05,.9,1); }
+				}
+
+				@keyframes jump {
+					0%   { transform: translate3d(0,0,0) scale3d(1,1,1); }
+					40%  { transform: translate3d(0,10%,0) scale3d(1,1.1,1); }
+					100% { transform: translate3d(0,11%,0) scale3d(1.05,.9,1); }
+				}
+			}
+		}
+
+		.cont_abst {
+			p {
+				@include fluid_type( // responsive typography
+					// >>>>> VIEWPORT <<<<<
+					// $viewport-min: 20em, // default value set in `_fluid_type.scss` to enable global configuration
+					// $viewport-max: 100em, // default value set in `_fluid_type.scss` to enable global configuration
+					// >>>>> MOBILE <<<<<
+					$font-size-min: 1.13rem, // `font-size` on mobile viewport (< 575.98px)
+					$line-height-mobile: 1.5, // `line-height` multiplier on mobile viewport (< 575.98px)
+					// >>>>> DESKTOP <<<<<
+					$font-size-max: 1.13rem, // `font-size` on desktop viewport (> 576px)
+					$line-height-desktop: 1.2, // `line-height` multiplier on desktop viewport (> 576px)
+					// >>>>> IMPORTANT <<<<<
+					// $important: "!important" // uncomment to add the `!important` flag
+				);
+				// line-height: 1.6;
+				word-break: break-word;
+			}
+
+		}
+
+		.cont_cat {
+			.fill_fx {
+				@include filling_effect($color_black, $color_second, $color_black, $color_second);
+			}
+		}
+
+		.cont_img {
+			@at-root div.cont_img {
+				width: 100%;
+				height: 524px;
+				// background-image: url('{$workspace}/uploads/{$imgname}');
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-position: center top;
+				z-index: -1;
+			}
+		}
+	}
+
+
+
+/////
+////
+/*/==================== @media ====================/*/// {
+/////////////////
+////////////////
+			  ////////////////////////
+			 /* @media (max-width) */
+			////////////////////////
+
+			@media (max-width: 1399.98px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 1199.98px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 991.98px) {
+
+				.txt_img_row_vert_module {
+
+					.cont_img {
+						@at-root div.cont_img {
+							height: 390px;
+							// background-image: url('{$workspace}/uploads/{$imgname}');
+						}
+					}
+
+				}
+
+			}
+
+			@media (max-width: 767.98px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (max-width: 575.98px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+				// -------------- //
+
+			  ////////////////////
+			 /* @media between */
+			////////////////////
+
+			@media (min-width: 576px) and (max-width: 767.98px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 576px) and (max-width: 991.98px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) and (max-width: 991.98px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 992px) and (max-width: 1199.98px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) and (max-width: 1399.98px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+				// ------------------ //
+
+			  ////////////////////////
+			 /* @media (min-width) */
+			////////////////////////
+
+			@media (min-width: 576px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 768px) {
+
+				.txt_img_row_vert_module {
+					.cont_txt {
+						&:nth-child(odd) {
+							text-align: right;
+						}
+
+						&:nth-child(even) {
+							text-align: left;
+						}
+					}
+
+					.cont_txt_inv {
+						&:nth-child(odd) {
+							text-align: left;
+						}
+
+						&:nth-child(even) {
+							text-align: right;
+						}
+					}
+				}
+
+			}
+
+			@media (min-width: 992px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1200px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+			@media (min-width: 1400px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+				// ---------------- //
+
+			  //////////////////////
+			 /* mobile landscape */
+			//////////////////////
+
+			@media (max-height: 400px) and (orientation: landscape) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+
+				// ----------------- //
+
+			  ///////////////////////
+			 /* iPad Pro portrait */
+			///////////////////////
+
+			@media (width: 1024px) and (height: 1366px) {
+
+				.txt_img_row_vert_module {
+
+
+
+				}
+
+			}
+  //  }
+
+}

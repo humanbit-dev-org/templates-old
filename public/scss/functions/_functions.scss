@@ -1,0 +1,18 @@
+  // Functions
+ //
+// Utility mixins and functions for evaluating source code across our variables, maps, and mixins.
+
+@use "sass:math";
+
+// Unitless
+// Removes the unit of a given value.
+// @param {Number} $number - Number to remove unit from
+// @return {Number} - Unitless number
+// See https://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass
+@function strip-unit($number) {
+	@if type-of($number) == 'number' and not unitless($number) {
+		@return math.div($number, ($number * 0 + 1));
+	}
+
+	@return $number;
+}
